@@ -95,7 +95,7 @@ setup(
     setup_requires=setup_requires,
     cffi_modules=[
         "amptorch_descriptor/BP_symmetry_function/libsymf_builder.py:ffibuilder",
-        "amptorch_descriptor/MCSH/libmcsh_builder.py:ffibuilder",
+        # "amptorch_descriptor/MCSH/libmcsh_builder.py:ffibuilder",
     ],
 )
 
