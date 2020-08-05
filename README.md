@@ -1,2 +1,2 @@
-# amptorch_feature
+# amptorch_descriptor
 feature generation for amptorch

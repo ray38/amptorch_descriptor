@@ -58,7 +58,7 @@ setup_requires = [
 # TODO: install requires add
 # FIXME: fill the empty part
 setup(
-    name='amptorch_feature',
+    name='amptorch_descriptor',
     version=__version__,
     description='Package for feature generation for amptorch.',
     long_description=long_description,
@@ -94,8 +94,8 @@ setup(
     install_requires=install_requires,
     setup_requires=setup_requires,
     cffi_modules=[
-        "amptorch_feature/BP_symmetry_function/libsymf_builder.py:ffibuilder",
-        "amptorch_feature/MCSH/libmcsh_builder.py:ffibuilder",
+        "amptorch_descriptor/BP_symmetry_function/libsymf_builder.py:ffibuilder",
+        "amptorch_descriptor/MCSH/libmcsh_builder.py:ffibuilder",
     ],
 )
 
