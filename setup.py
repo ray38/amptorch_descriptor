@@ -59,11 +59,11 @@ setup_requires = [
 # FIXME: fill the empty part
 setup(
     name='amptorch_descriptor',
-    version=__version__,
+    # version=__version__,
     description='Package for feature generation for amptorch.',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/Nanco-L/simple-nn', # temperary url 
+    # long_description=long_description,
+    # long_description_content_type='text/markdown',
+    # url='https://github.com/Nanco-L/simple-nn', # temperary url 
     author='Xiangyun Lei',
     author_email='xlei38@gatech.edu',
     license='GPL-3.0',
