@@ -112,7 +112,7 @@ class AMPTorchDescriptorBase(ABC):
     
 
     def setup_fingerprint_database(self):
-        get_descriptor_setup_hash()
+        self.get_descriptor_setup_hash()
         self.desc_fp_database_dir = "{}/{}".format(self.fp_database, self.descriptor_type)
 
         if not os.path.exists(self.fp_database):
