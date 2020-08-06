@@ -113,7 +113,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
             # if not, it could generate bug in training process for force training
             type_idx[atom_index] = np.arange(atom_num)[tmp]
 
-        atom_index_p = ffi.cast("int *", atom_i.ctypes.data)
+        atom_indices_p = ffi.cast("int *", atom_indices.ctypes.data)
 
         cart = np.copy(atoms.get_positions(wrap=True), order='C')
         scale = np.copy(atoms.get_scaled_positions(), order='C')
@@ -137,7 +137,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         dx_p = _gen_2Darray_for_ffi(dx, ffi)
 
         errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p,\
-                        atom_index_p, atom_num, cal_atoms_p, cal_num, \
+                        atom_indices_p, atom_num, cal_atoms_p, cal_num, \
                         self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[jtem]['num'], \
                         x_p, dx_p)
                 
