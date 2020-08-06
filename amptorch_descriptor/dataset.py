@@ -14,7 +14,7 @@ class AMPTorchDataset(Dataset):
         parallel = False,
         cores = 1,
     ):
-        self.images = images
+        # self.images = images
         self.trajs = trajs
         self.forcetraining = forcetraining
         self.calculate_fingerprints = calculate_fingerprints
