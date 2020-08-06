@@ -105,7 +105,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         type_num = dict()
         type_idx = dict()
         
-        for atom_index in enumerate(unique_atom_indices):
+        for atom_index in unique_atom_indices:
             tmp = atom_indices==atom_index
             type_num[atom_index] = np.sum(tmp).astype(np.int64)
             # if atom indexs are sorted by atom type,
