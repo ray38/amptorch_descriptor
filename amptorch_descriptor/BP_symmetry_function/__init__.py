@@ -148,6 +148,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         fp = np.array(x)
         fp_prime = np.array(dx)
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
+        print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
         return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
 
