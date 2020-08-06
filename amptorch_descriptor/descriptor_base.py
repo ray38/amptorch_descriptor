@@ -122,6 +122,6 @@ class AMPTorchDescriptorBase(ABC):
             os.makedirs(self.desc_fp_database_dir)
 
         descriptor_setup_filename = "__descriptor_setup__.txt"
-        descriptor_setup_path = "{}/{}".format(desc_fp_database_dir, descriptor_setup_filename)
+        descriptor_setup_path = "{}/{}".format(self.desc_fp_database_dir, descriptor_setup_filename)
         self.save_descriptor_setup(descriptor_setup_path)
         
