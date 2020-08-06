@@ -5,7 +5,12 @@ ffibuilder.cdef(
     """int calculate_sf(double **, double **, double **, int*,
                         int *, int, int*, int,
                         int**, double **, int,
-                        double**, double**);"""
+                        double**, double**);
+        
+        int calculate_sf_no_deriv(double **, double **, double **, int*, 
+                            int *, int, int*, int,
+                            int**, double **, int, 
+                            double**);"""
 )
 ffibuilder.set_source(
     "amptorch_descriptor.BP_symmetry_function._libsymf",

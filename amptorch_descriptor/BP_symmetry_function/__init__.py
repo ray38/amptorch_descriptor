@@ -129,163 +129,39 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         cell_p  = _gen_2Darray_for_ffi(cell, ffi)
         pbc_p = ffi.cast("int *", pbc.ctypes.data)
 
-
         cal_atoms = np.asarray(type_idx[element_index], dtype=np.intc, order='C')
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
-        x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
-        dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
+        if calculate_derivatives:
+            x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
+            dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
 
-        x_p = _gen_2Darray_for_ffi(x, ffi)
-        dx_p = _gen_2Darray_for_ffi(dx, ffi)
+            x_p = _gen_2Darray_for_ffi(x, ffi)
+            dx_p = _gen_2Darray_for_ffi(dx, ffi)
 
-        errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p,\
-                        atom_indices_p, atom_num, cal_atoms_p, cal_num, \
-                        self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
-                        x_p, dx_p)
-                
-        fp = np.array(x)
-        fp_prime = np.array(dx)
-        scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
-        print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
-
-        return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
-
-
-    # def calculate_fingerprints_simplenn_Ref(self, atoms, element, log=None, calculate_derivatives=True):
-    #     # atoms is a single snapshot
-    #     # Adapted from the python code in simple-nn
-    #     params_set = self.params_set
-    #     x_out = {}
-    #     dx_out = {}
-    #     # da_out = {} # no stress calculation
-
-    #     symbols = np.array(atoms.get_chemical_symbols())
-    #     atom_num = len(symbols)
-    #     atom_i = np.zeros([len(symbols)], dtype=np.intc, order='C')
-    #     type_num = dict()
-    #     type_idx = dict()
-        
-    #     for j,jtem in enumerate(params_set.keys()):
-    #         tmp = symbols==jtem
-    #         atom_i[tmp] = j+1
-    #         type_num[jtem] = np.sum(tmp).astype(np.int64)
-    #         # if atom indexs are sorted by atom type,
-    #         # indexs are sorted in this part.
-    #         # if not, it could generate bug in training process for force training
-    #         type_idx[jtem] = np.arange(atom_num)[tmp]
-
-    #     # for key in params_set:
-    #     #     params_set[key]['ip']=_gen_2Darray_for_ffi(np.asarray(params_set[key]['i'], dtype=np.intc, order='C'), ffi, "int")
-    #     #     params_set[key]['dp']=_gen_2Darray_for_ffi(np.asarray(params_set[key]['d'], dtype=np.float64, order='C'), ffi)
-            
-    #     atom_i_p = ffi.cast("int *", atom_i.ctypes.data)
-
-    #     cart = np.copy(atoms.get_positions(wrap=True), order='C')
-    #     scale = np.copy(atoms.get_scaled_positions(), order='C')
-    #     cell = np.copy(atoms.cell, order='C')
-
-    #     cart_p  = _gen_2Darray_for_ffi(cart, ffi)
-    #     scale_p = _gen_2Darray_for_ffi(scale, ffi)
-    #     cell_p  = _gen_2Darray_for_ffi(cell, ffi)
-
-    #     for j,jtem in enumerate(params_set.keys()):
-
-    #         cal_atoms = np.asarray(type_idx[jtem][:], dtype=np.intc, order='C')
-    #         cal_num = len(cal_atoms)
-    #         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
-
-    #         x = np.zeros([cal_num, params_set[jtem]['num']], dtype=np.float64, order='C')
-    #         dx = np.zeros([cal_num, params_set[jtem]['num'] * atom_num * 3], dtype=np.float64, order='C')
-    #         # da = np.zeros([cal_num, params_set[jtem]['num'] * 3 * 6], dtype=np.float64, order='C') # no stress calculation
-
-    #         x_p = _gen_2Darray_for_ffi(x, ffi)
-    #         dx_p = _gen_2Darray_for_ffi(dx, ffi)
-    #         # da_p = _gen_2Darray_for_ffi(da, ffi) # no stress calculation
-
-    #         errno = lib.calculate_sf(cell_p, cart_p, scale_p, \
-    #                         atom_i_p, atom_num, cal_atoms_p, cal_num, \
-    #                         params_set[jtem]['ip'], params_set[jtem]['dp'], params_set[jtem]['num'], \
-    #                         x_p, dx_p)
-    #                         # , da_p) # no stress calculation
+            errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p,\
+                            atom_indices_p, atom_num, cal_atoms_p, cal_num, \
+                            self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
+                            x_p, dx_p)
                     
-    #         x_out[jtem] = np.array(x).reshape([type_num[jtem], params_set[jtem]['num']])
-    #         dx_out[jtem] = np.array(dx).reshape([type_num[jtem], params_set[jtem]['num'], atom_num, 3])
-    #         # da_out[jtem] = np.array(da)
+            fp = np.array(x)
+            fp_prime = np.array(dx)
+            scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
+            print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
-    #     return x_out, dx_out 
+            return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
+        
+        else:
+            x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
+            x_p = _gen_2Darray_for_ffi(x, ffi)
 
-    
+            errno = lib.calculate_sf_no_deriv(cell_p, cart_p, scale_p, pbc_p,\
+                            atom_indices_p, atom_num, cal_atoms_p, cal_num, \
+                            self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
+                            x_p, dx_p)
+                    
+            fp = np.array(x)
 
+            return fp, None, None, None, None
 
-
-# def make_symmetry_functions(elements, type, etas, zetas=None, gammas=None):
-#     """Helper function to create Gaussian symmetry functions.
-#     Returns a list of dictionaries with symmetry function parameters
-#     in the format expected by the Gaussian class.
-
-#     Parameters
-#     ----------
-#     elements : list of str
-#         List of element types. The first in the list is considered the
-#         central element for this fingerprint. #FIXME: Does that matter?
-#     type : str
-#         Either G2, G4, or G5.
-#     etas : list of floats
-#         eta values to use in G2, G4 or G5 fingerprints
-#     zetas : list of floats
-#         zeta values to use in G4, and G5 fingerprints
-#     gammas : list of floats
-#         gamma values to use in G4, and G5 fingerprints
-
-#     Returns
-#     -------
-#     G : list of dicts
-#         A list, each item in the list contains a dictionary of fingerprint
-#         parameters.
-#     """
-#     if type == "G2":
-#         G = [
-#             {"type": "G2", "element": element, "eta": eta}
-#             for eta in etas
-#             for element in elements
-#         ]
-#         return G
-#     elif type == "G4":
-#         G = []
-#         for eta in etas:
-#             for zeta in zetas:
-#                 for gamma in gammas:
-#                     for i1, el1 in enumerate(elements):
-#                         for el2 in elements[i1:]:
-#                             els = sorted([el1, el2])
-#                             G.append(
-#                                 {
-#                                     "type": "G4",
-#                                     "elements": els,
-#                                     "eta": eta,
-#                                     "gamma": gamma,
-#                                     "zeta": zeta,
-#                                 }
-#                             )
-#         return G
-#     elif type == "G5":
-#         G = []
-#         for eta in etas:
-#             for zeta in zetas:
-#                 for gamma in gammas:
-#                     for i1, el1 in enumerate(elements):
-#                         for el2 in elements[i1:]:
-#                             els = sorted([el1, el2])
-#                             G.append(
-#                                 {
-#                                     "type": "G5",
-#                                     "elements": els,
-#                                     "eta": eta,
-#                                     "gamma": gamma,
-#                                     "zeta": zeta,
-#                                 }
-#                             )
-#         return G
-#     raise NotImplementedError("Unknown type: {}.".format(type))

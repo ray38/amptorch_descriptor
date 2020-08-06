@@ -28,10 +28,13 @@ class AMPTorchDataset(Dataset):
         # assert isinstance(images, Atoms)
 
         if calculate_fingerprints:
-            self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, calculate_derivatives=self.forcetraining, save=self.store_fingerprints)
-            self.fingerprints_ready = True
-            self.fingerprint_primes_ready = True
+            self.prepare_fingerprint_data()
 
+    def prepare_fingerprint_data(self):
+        self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, calculate_derivatives=self.forcetraining, save=self.store_fingerprints)
+        self.fingerprints_ready = True
+        if self.forcetraining:
+            self.fingerprint_primes_ready = True
 
     def __len__(self):
         return len(self.atom_images)

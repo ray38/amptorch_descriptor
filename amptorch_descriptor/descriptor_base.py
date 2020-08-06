@@ -70,29 +70,44 @@ class AMPTorchDescriptorBase(ABC):
                                 except:
                                     current_element_grp = current_snapshot_grp.create_group(element)
 
-                                try:
-                                    fps = np.array(current_element_grp["fps"])
-                                    fp_primes_val = np.array(current_element_grp["fp_primes_val"])
-                                    fp_primes_row = np.array(current_element_grp["fp_primes_row"])
-                                    fp_primes_col = np.array(current_element_grp["fp_primes_col"])
-                                    fp_primes_size = np.array(current_element_grp["fp_primes_size"])
-                                except: 
-                                    fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
-                                        self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
+                                if calculate_derivatives:
+                                    try:
+                                        fps = np.array(current_element_grp["fps"])
+                                        fp_primes_val = np.array(current_element_grp["fp_primes_val"])
+                                        fp_primes_row = np.array(current_element_grp["fp_primes_row"])
+                                        fp_primes_col = np.array(current_element_grp["fp_primes_col"])
+                                        fp_primes_size = np.array(current_element_grp["fp_primes_size"])
+                                    except: 
+                                        fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
+                                            self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
 
-                                    current_element_grp.create_dataset("fps", data=fps)
-                                    current_element_grp.create_dataset("fp_primes_val", data=fp_primes_val)
-                                    current_element_grp.create_dataset("fp_primes_row", data=fp_primes_row)
-                                    current_element_grp.create_dataset("fp_primes_col", data=fp_primes_col)
-                                    current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
+                                        current_element_grp.create_dataset("fps", data=fps)
+                                        current_element_grp.create_dataset("fp_primes_val", data=fp_primes_val)
+                                        current_element_grp.create_dataset("fp_primes_row", data=fp_primes_row)
+                                        current_element_grp.create_dataset("fp_primes_col", data=fp_primes_col)
+                                        current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
 
-                                indices = np.vstack((fp_primes_row, fp_primes_col))
-                                torch_indices = torch.LongTensor(indices)
-                                torch_values = torch.FloatTensor(fp_primes_val)
-                                fp_prims_torch_sparse = torch.sparse.FloatTensor(torch_indices, torch_values, torch.Size(fp_primes_size))
+                                    indices = np.vstack((fp_primes_row, fp_primes_col))
+                                    torch_indices = torch.LongTensor(indices)
+                                    torch_values = torch.FloatTensor(fp_primes_val)
+                                    fp_prims_torch_sparse = torch.sparse.FloatTensor(torch_indices, torch_values, torch.Size(fp_primes_size))
 
-                                trajs_fingerprint_list.append(torch.from_numpy(fps))
-                                trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                                    trajs_fingerprint_list.append(torch.from_numpy(fps))
+                                    trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                                
+                                else:
+                                    try:
+                                        fps = np.array(current_element_grp["fps"])
+                                    except: 
+                                        fps, _, _, _, _ = \
+                                            self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
+
+                                        current_element_grp.create_dataset("fps", data=fps)
+
+                                    indices = np.vstack((fp_primes_row, fp_primes_col))
+
+                                    trajs_fingerprint_list.append(torch.from_numpy(fps))
+                                    
                             else:
                                 print("element not in current snapshot: {}".format(element))
                         
