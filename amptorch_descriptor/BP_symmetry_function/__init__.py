@@ -128,8 +128,8 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
-        x = np.zeros([cal_num, params_set[jtem]['num']], dtype=np.float64, order='C')
-        dx = np.zeros([cal_num * params_set[jtem]['num'], atom_num * 3], dtype=np.float64, order='C')
+        x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
+        dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
 
         x_p = _gen_2Darray_for_ffi(x, ffi)
         dx_p = _gen_2Darray_for_ffi(dx, ffi)
