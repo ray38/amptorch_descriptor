@@ -34,7 +34,7 @@ class AMPTorchDescriptorBase(ABC):
         # prepare self.params_set
         pass
     
-    def prepare_fingerprints(self, trajs, parallel=None, log=None, calculate_derivatives=True, save=False):
+    def prepare_fingerprints(self, trajs, parallel=None, log=None, calculate_derivatives=True, save=True):
         # params_set = self.params_set
 
         trajs_fingerprint_list = []

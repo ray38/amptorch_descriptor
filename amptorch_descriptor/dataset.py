@@ -15,13 +15,19 @@ class AMPTorchDataset(Dataset):
         cores = 1,
     ):
         self.images = images
+        self.trajs = trajs
         self.forcetraining = forcetraining
-        self.store_primes = store_primes
+        self.calculate_fingerprints = calculate_fingerprints
+        self.store_fingerprints = store_fingerprints
+
         self.fingerprints_ready = False
         self.fingerprint_primes_ready = False
         
         assert isinstance(descriptor, AMPTorchDescriptorBase)
         # assert isinstance(images, Atoms)
+
+        if calculate_fingerprints:
+            self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, calculate_derivatives=self.forcetraining, save=self.store_fingerprints)
 
         if not self.fingerprints_ready:
             self.descriptor.prepare_fingerprints()

@@ -134,7 +134,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
         x_p = _gen_2Darray_for_ffi(x, ffi)
         dx_p = _gen_2Darray_for_ffi(dx, ffi)
 
-        errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p\
+        errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p,\
                         atom_index_p, atom_num, cal_atoms_p, cal_num, \
                         self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[jtem]['num'], \
                         x_p, dx_p)
