@@ -16,6 +16,7 @@ class AMPTorchDataset(Dataset):
     ):
         # self.images = images
         self.trajs = trajs
+        self.descriptor = descriptor
         self.forcetraining = forcetraining
         self.calculate_fingerprints = calculate_fingerprints
         self.store_fingerprints = store_fingerprints
