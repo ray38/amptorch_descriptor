@@ -90,7 +90,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
     def save_descriptor_setup(self, filename):
         with open(filename, 'w') as out_file:
             for desc in self.descriptor_setup:
-                out_file.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(desc[0], desc[1], desc[2], desc[3], desc[4], desc[5], desc[6]))
+                out_file.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(int(desc[0]), int(desc[1]), int(desc[2]), desc[3], desc[4], desc[5], desc[6]))
 
 
     def calculate_fingerprints(self, atoms, element, log=None, calculate_derivatives=True):

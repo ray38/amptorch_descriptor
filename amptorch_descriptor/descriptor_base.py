@@ -51,7 +51,7 @@ class AMPTorchDescriptorBase(ABC):
             for traj in trajs:
                 traj_start_time = time.time()
                 traj_hash = get_traj_hash(traj)
-                traj_db_filename = "{}/AmpFP-{}-{}.h5".format(self.desc_fp_database_dir, self.descriptor_type, traj_hash)
+                traj_db_filename = "{}/AmpFP-{}-{}-{}.h5".format(self.desc_fp_database_dir, self.descriptor_type, self.descriptor_setup_hash,traj_hash)
 
                 with h5py.File(traj_db_filename,'a') as db:
 
