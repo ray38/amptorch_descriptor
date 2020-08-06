@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from .util import get_traj_hash
+import numpy as np
 import h5py
 import os
+from .util import get_traj_hash
  
 class AMPTorchDescriptorBase(ABC):
  
