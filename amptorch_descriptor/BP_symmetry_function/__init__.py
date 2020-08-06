@@ -3,7 +3,7 @@ from scipy import sparse
 from ase.calculators.calculator import Parameters
 from ._libsymf import lib, ffi
 from ..descriptor_base import AMPTorchDescriptorBase
-from ..util import Cosine_cutoff, _gen_2Darray_for_ffi, list_symbols_to_indices, list_indices_to_symbols
+from ..util import _gen_2Darray_for_ffi, list_symbols_to_indices, list_indices_to_symbols
 from ..constants import ATOM_INDEX_TO_SYMBOL_DICT, ATOM_SYMBOL_TO_INDEX_DICT
 
 
