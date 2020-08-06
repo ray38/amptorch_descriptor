@@ -69,7 +69,7 @@ def _gen_2Darray_for_ffi(arr, ffi, cdata="double"):
 
 def get_traj_hash(traj):
     
-    assert isinstance(traj, Trajectory)
+    # assert isinstance(traj, Trajectory)
     string = ""
     atoms = traj[0]
     string += str(temp_atoms.pbc)
