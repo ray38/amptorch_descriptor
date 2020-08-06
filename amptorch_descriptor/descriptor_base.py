@@ -50,9 +50,9 @@ class AMPTorchDescriptorBase(ABC):
                 with h5py.File(traj_db_filename,'a') as db:
                     for i, snapshot in enumerate(traj):
                         try:
-                            current_snapshot_grp = db[i]
+                            current_snapshot_grp = db[str(i)]
                         except:
-                            current_snapshot_grp = db.create_group(i)
+                            current_snapshot_grp = db.create_group(str(i))
                         
                         for element in self.elements:
                             try:
