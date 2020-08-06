@@ -27,7 +27,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
     def prepare_descriptor_parameters(self):
         # prepare self.params_set
         descriptor_setup = []
-        cutoff = self.Gs.cutoff
+        cutoff = self.Gs["cutoff"]
         # element_indices = list_symbols_to_indices(self.elements)
         if "G2" in self.Gs:
             descriptor_setup += [
