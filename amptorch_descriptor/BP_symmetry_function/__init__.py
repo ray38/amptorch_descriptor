@@ -112,6 +112,8 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
             # indexs are sorted in this part.
             # if not, it could generate bug in training process for force training
             type_idx[atom_index] = np.arange(atom_num)[tmp]
+        
+        print("type index: {}".format(type_idx))
 
         atom_indices_p = ffi.cast("int *", atom_indices.ctypes.data)
 
