@@ -27,51 +27,110 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.get_descriptor_setup_hash()
 
     def prepare_descriptor_parameters(self):
-        # prepare self.params_set
         descriptor_setup = []
-        cutoff = self.Gs["cutoff"]
-        # element_indices = list_symbols_to_indices(self.elements)
-        if "G2" in self.Gs:
-            descriptor_setup += [
-                [2, element1, 0, cutoff, eta, rs, 0.0]
-                for element1 in self.element_indices
-                for eta in self.Gs["G2"]["etas"]
-                for rs in self.Gs["G2"]["rs_s"]
-            ]
-        
-        if "G4" in self.Gs:
-            descriptor_setup += [
-                [4, element1, element2, cutoff, eta, zeta, gamma]
-                for element1 in self.element_indices
-                for element2 in self.element_indices
-                for eta in self.Gs["G4"]["etas"]
-                for zeta in self.Gs["G4"]["zetas"]
-                for gamma in self.Gs["G4"]["gammas"]
-            ]
-
-        if "G5" in self.Gs:
-            descriptor_setup += [
-                [4, element1, element2, cutoff, eta, zeta, gamma]
-                for element1 in self.element_indices
-                for element2 in self.element_indices
-                for eta in self.Gs["G4"]["etas"]
-                for zeta in self.Gs["G4"]["zetas"]
-                for gamma in self.Gs["G4"]["gammas"]
-            ]
-
+        cutoff = self.MCSHs["cutoff"]
+        for i in range(9):
+            if str(i) in self.MCSHs["MCSHs"].keys():
+                descriptor_setup += [
+                                        [i, group, sigma, 1.0, 1/(sigma * np.sqrt(2*np.pi)), 1/(2*sigma*sigma), cutoff]
+                                        for group in self.MCSHs["MCSHs"][str(i)]["groups"]
+                                        for sigma in self.MCSHs["MCSHs"][str(i)]["sigmas"]
+                                    ]
         self.descriptor_setup = np.array(descriptor_setup)
 
+        atomic_gaussian_setup = {}
+        for element in self.elements:
+            params = list()
+            # count = 0
+            filename = self.MCSHs["MCSHs"]["atom_gaussians"][element]
+            with open(filename, 'r') as fil:
+                for line in fil:
+                    tmp = line.split()
+                    params += [float(tmp[0]), float(tmp[1])]
+                    # count += 1
+            element_index = ATOM_SYMBOL_TO_INDEX_DICT[element]
+            params = np.asarray(params, dtype=np.float64, order='C')
+            atomic_gaussian_setup[element_index] = params
+        
+        self.atomic_gaussian_setup = atomic_gaussian_setup
+
+        max_gaussian_count = 0
+        ngaussian_list = list()
         self.params_set = dict()
         for element_index in self.element_indices:
             self.params_set[element_index] = dict()
-            params_i = np.asarray(self.descriptor_setup[:,:3].copy(), dtype=np.intc, order='C')
-            params_d = np.asarray(self.descriptor_setup[:,3:].copy(), dtype=np.float64, order='C')
-            self.params_set[element_index]["i"] = params_i
-            self.params_set[element_index]["d"] = params_d
-            self.params_set[element_index]['ip'] = _gen_2Darray_for_ffi(self.params_set[element_index]['i'], ffi, "int")
-            self.params_set[element_index]['dp'] = _gen_2Darray_for_ffi(self.params_set[element_index]['d'], ffi)
-            self.params_set[element_index]['total'] = np.concatenate((self.params_set[element_index]['i'], self.params_set[element_index]['d']), axis=1)
-            self.params_set[element_index]['num'] = len(self.descriptor_setup)
+            self.params_set[element_index]['gaussian_params'] = self.atomic_gaussian_setup[element_index]
+            self.params_set[element_index]['gaussian_count']  = len(self.atomic_gaussian_setup[element_index])
+            ngaussian_list.append(params_set[element_index]['gaussian_params'])
+
+        ngaussian_list = np.asarray(ngaussian_list, dtype=np.intc, order='C')
+        max_gaussian_count = np.max(ngaussian_list)
+        overall_gaussian_params = list()
+        for element_index in self.element_indices:
+            temp = np.zeros(max_gaussian_count * 2)
+            temp[:self.params_set[element_index]['gaussian_count']*2] = params_set[element_index]['gaussian_params']
+            overall_gaussian_params.append(temp)
+        
+        self.params_set['ngaussians'] = ngaussian_list
+        self.params_set['ngaussians_p'] = ffi.cast("int *", ngaussian_list.ctypes.data)
+        self.params_set['gaussian_params'] = overall_gaussian_params
+        self.params_set['gaussian_params_p'] = _gen_2Darray_for_ffi(overall_gaussian_params, ffi)
+
+        params_i = np.asarray(self.descriptor_setup[:,:2].copy(), dtype=np.intc, order='C')
+        params_d = np.asarray(self.descriptor_setup[:,2:].copy(), dtype=np.float64, order='C')
+        self.params_set[element_index]["i"] = params_i
+        self.params_set[element_index]["d"] = params_d
+
+        self.params_set['ip'] = _gen_2Darray_for_ffi(params_set['i'], ffi, "int")
+        self.params_set['dp'] = _gen_2Darray_for_ffi(params_set['d'], ffi)
+        self.params_set['total'] = np.concatenate((params_set['i'], params_set['d']), axis=1)
+        self.params_set['num'] = len(params_set['total'])
+
+        # # prepare self.params_set
+        # descriptor_setup = []
+        # cutoff = self.Gs["cutoff"]
+        # # element_indices = list_symbols_to_indices(self.elements)
+        # if "G2" in self.Gs:
+        #     descriptor_setup += [
+        #         [2, element1, 0, cutoff, eta, rs, 0.0]
+        #         for element1 in self.element_indices
+        #         for eta in self.Gs["G2"]["etas"]
+        #         for rs in self.Gs["G2"]["rs_s"]
+        #     ]
+        
+        # if "G4" in self.Gs:
+        #     descriptor_setup += [
+        #         [4, element1, element2, cutoff, eta, zeta, gamma]
+        #         for element1 in self.element_indices
+        #         for element2 in self.element_indices
+        #         for eta in self.Gs["G4"]["etas"]
+        #         for zeta in self.Gs["G4"]["zetas"]
+        #         for gamma in self.Gs["G4"]["gammas"]
+        #     ]
+
+        # if "G5" in self.Gs:
+        #     descriptor_setup += [
+        #         [4, element1, element2, cutoff, eta, zeta, gamma]
+        #         for element1 in self.element_indices
+        #         for element2 in self.element_indices
+        #         for eta in self.Gs["G4"]["etas"]
+        #         for zeta in self.Gs["G4"]["zetas"]
+        #         for gamma in self.Gs["G4"]["gammas"]
+        #     ]
+
+        # self.descriptor_setup = np.array(descriptor_setup)
+
+        # self.params_set = dict()
+        # for element_index in self.element_indices:
+        #     self.params_set[element_index] = dict()
+        #     params_i = np.asarray(self.descriptor_setup[:,:3].copy(), dtype=np.intc, order='C')
+        #     params_d = np.asarray(self.descriptor_setup[:,3:].copy(), dtype=np.float64, order='C')
+        #     self.params_set[element_index]["i"] = params_i
+        #     self.params_set[element_index]["d"] = params_d
+        #     self.params_set[element_index]['ip'] = _gen_2Darray_for_ffi(self.params_set[element_index]['i'], ffi, "int")
+        #     self.params_set[element_index]['dp'] = _gen_2Darray_for_ffi(self.params_set[element_index]['d'], ffi)
+        #     self.params_set[element_index]['total'] = np.concatenate((self.params_set[element_index]['i'], self.params_set[element_index]['d']), axis=1)
+        #     self.params_set[element_index]['num'] = len(self.descriptor_setup)
 
         return
     
@@ -133,35 +192,35 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
-        if calculate_derivatives:
-            x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
-            dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
+        # if calculate_derivatives:
+        x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
+        dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
 
-            x_p = _gen_2Darray_for_ffi(x, ffi)
-            dx_p = _gen_2Darray_for_ffi(dx, ffi)
+        x_p = _gen_2Darray_for_ffi(x, ffi)
+        dx_p = _gen_2Darray_for_ffi(dx, ffi)
 
-            errno = lib.calculate_sf(cell_p, cart_p, scale_p, pbc_p,\
-                            atom_indices_p, atom_num, cal_atoms_p, cal_num, \
-                            self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
-                            x_p, dx_p)
-                    
-            fp = np.array(x)
-            fp_prime = np.array(dx)
-            scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
-            print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
+        errno = lib.calculate_atomistic_mcsh(cell_p, cart_p, scale_p, pbc_p,\
+                    atom_indices_p, atom_num, cal_atoms_p, cal_num, \
+                    self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'],\
+                    x_p, dx_p)
+                
+        fp = np.array(x)
+        fp_prime = np.array(dx)
+        scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
+        print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
-            return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
+        return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
         
-        else:
-            x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
-            x_p = _gen_2Darray_for_ffi(x, ffi)
+        # else:
+        #     x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
+        #     x_p = _gen_2Darray_for_ffi(x, ffi)
 
-            errno = lib.calculate_sf_no_deriv(cell_p, cart_p, scale_p, pbc_p,\
-                            atom_indices_p, atom_num, cal_atoms_p, cal_num, \
-                            self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
-                            x_p, dx_p)
+        #     errno = lib.calculate_atomistic_mcsh(cell_p, cart_p, scale_p, pbc_p,\
+        #                 atom_indices_p, atom_num, cal_atoms_p, cal_num, \
+        #                 self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'],\
+        #                 x_p, dx_p)
                     
-            fp = np.array(x)
+        #     fp = np.array(x)
 
-            return fp, None, None, None, None
+        #     return fp, None, None, None, None
 
