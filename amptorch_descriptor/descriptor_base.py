@@ -79,7 +79,7 @@ class AMPTorchDescriptorBase(ABC):
                                 current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
 
                             indices = np.vstack((fp_primes_row, fp_primes_col))
-                            fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(fp_primes_size))
+                            fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(tuple(fp_primes_size)))
 
                             trajs_fingerprint_list.append(torch.from_numpy(fps))
                             trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
@@ -93,7 +93,7 @@ class AMPTorchDescriptorBase(ABC):
                             self.calculate_fingerprints(self, snapshot, element, calculate_derivatives=calculate_derivatives)
 
                         indices = np.vstack((fp_primes_row, fp_primes_col))
-                        fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(fp_primes_size))
+                        fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(tuple(fp_primes_size)))
 
                         trajs_fingerprint_list.append(torch.from_numpy(fps))
                         trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
