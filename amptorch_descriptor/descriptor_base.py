@@ -57,48 +57,54 @@ class AMPTorchDescriptorBase(ABC):
                             current_snapshot_grp = db.create_group(str(i))
                         
                         for element in self.elements:
-                            try:
-                                current_element_grp = current_snapshot_grp[element]
-                            except:
-                                current_element_grp = current_snapshot_grp.create_group(element)
+                            if element in snapshot.get_chemical_symbols():
+                                try:
+                                    current_element_grp = current_snapshot_grp[element]
+                                except:
+                                    current_element_grp = current_snapshot_grp.create_group(element)
 
-                            try:
-                                fps = np.array(current_element_grp["fps"])
-                                fp_primes_val = np.array(current_element_grp["fp_primes_val"])
-                                fp_primes_row = np.array(current_element_grp["fp_primes_row"])
-                                fp_primes_col = np.array(current_element_grp["fp_primes_col"])
-                                fp_primes_size = np.array(current_element_grp["fp_primes_size"])
-                            except: 
-                                fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
-                                    self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
+                                try:
+                                    fps = np.array(current_element_grp["fps"])
+                                    fp_primes_val = np.array(current_element_grp["fp_primes_val"])
+                                    fp_primes_row = np.array(current_element_grp["fp_primes_row"])
+                                    fp_primes_col = np.array(current_element_grp["fp_primes_col"])
+                                    fp_primes_size = np.array(current_element_grp["fp_primes_size"])
+                                except: 
+                                    fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
+                                        self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
 
-                                current_element_grp.create_dataset("fps", data=fps)
-                                current_element_grp.create_dataset("fp_primes_val", data=fp_primes_val)
-                                current_element_grp.create_dataset("fp_primes_row", data=fp_primes_row)
-                                current_element_grp.create_dataset("fp_primes_col", data=fp_primes_col)
-                                current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
+                                    current_element_grp.create_dataset("fps", data=fps)
+                                    current_element_grp.create_dataset("fp_primes_val", data=fp_primes_val)
+                                    current_element_grp.create_dataset("fp_primes_row", data=fp_primes_row)
+                                    current_element_grp.create_dataset("fp_primes_col", data=fp_primes_col)
+                                    current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
 
-                            indices = np.vstack((fp_primes_row, fp_primes_col))
-                            i = torch.LongTensor(indices)
-                            v = torch.FloatTensor(fp_primes_val)
-                            fp_prims_torch_sparse = torch.sparse.FloatTensor(i, v, torch.Size(fp_primes_size))
+                                indices = np.vstack((fp_primes_row, fp_primes_col))
+                                i = torch.LongTensor(indices)
+                                v = torch.FloatTensor(fp_primes_val)
+                                fp_prims_torch_sparse = torch.sparse.FloatTensor(i, v, torch.Size(fp_primes_size))
 
-                            trajs_fingerprint_list.append(torch.from_numpy(fps))
-                            trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                                trajs_fingerprint_list.append(torch.from_numpy(fps))
+                                trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                            else:
+                                print("element not in current snapshot: {}".format(element))
         
         else:
             for traj in list_of_trajs:
                 for i, snapshot in enumerate(traj):
                     
                     for element in elements:
-                        fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
-                            self.calculate_fingerprints(self, snapshot, element, calculate_derivatives=calculate_derivatives)
+                        if element in snapshot.get_chemical_symbols():
+                            fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
+                                self.calculate_fingerprints(self, snapshot, element, calculate_derivatives=calculate_derivatives)
 
-                        indices = np.vstack((fp_primes_row, fp_primes_col))
-                        fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(fp_primes_size))
+                            indices = np.vstack((fp_primes_row, fp_primes_col))
+                            fp_prims_torch_sparse = torch.sparse.FloatTensor(indices, fp_primes_val, torch.Size(fp_primes_size))
 
-                        trajs_fingerprint_list.append(torch.from_numpy(fps))
-                        trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                            trajs_fingerprint_list.append(torch.from_numpy(fps))
+                            trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
+                        else:
+                            print("element not in current snapshot: {}".format(element))
 
 
         return trajs_fingerprint_list, trajs_fingerprint_prime_list
