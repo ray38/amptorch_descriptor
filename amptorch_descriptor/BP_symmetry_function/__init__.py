@@ -43,7 +43,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
                 for element1 in self.element_indices
                 for element2 in self.element_indices
                 for eta in self.Gs["G4"]["etas"]
-                for rs in self.Gs["G4"]["zetas"]
+                for zeta in self.Gs["G4"]["zetas"]
                 for gamma in self.Gs["G4"]["gammas"]
             ]
 
