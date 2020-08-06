@@ -1,5 +1,5 @@
 import numpy as np
-from amptorch_descriptor.BP_symmetry_function import BP_symmetry_function
+from amptorch_descriptor.BP_symmetry_function import BPSymmetryFunction
 from amptorch_descriptor.dataset import AMPTorchDataset
 from ase.io.trajectory import Trajectory
 from ase.io import read
@@ -12,6 +12,6 @@ Gs = {"G2": {"etas": np.logspace(np.log10(0.05), np.log10(5.0), num=4), "rs_s": 
 small = read('./small/water.extxyz', index=':')
 trajectories = [small]
 
-descriptor = BP_symmetry_function(Gs = Gs, elements = elements)
+descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
 
 training_data = AMPTorchDataset(trajectories, descriptor)
