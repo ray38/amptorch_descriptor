@@ -210,13 +210,13 @@ extern "C" int calculate_sf(double** cell, double** cart, double** scale, int* p
                     tmpd[1] = dradtmp*vecij[1];
                     tmpd[2] = dradtmp*vecij[2];
 
-                    dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3]     += tmpd[0];
-                    dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 1] += tmpd[1];
-                    dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 2] += tmpd[2];
+                    dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3]     += tmpd[0];
+                    dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 1] += tmpd[1];
+                    dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 2] += tmpd[2];
 
-                    dsymf[ii*nsyms + s][natoms*3 + i*3]     -= tmpd[0];
-                    dsymf[ii*nsyms + s][natoms*3 + i*3 + 1] -= tmpd[1];
-                    dsymf[ii*nsyms + s][natoms*3 + i*3 + 2] -= tmpd[2];
+                    dsymf[ii*nsyms + s][i*3]     -= tmpd[0];
+                    dsymf[ii*nsyms + s][i*3 + 1] -= tmpd[1];
+                    dsymf[ii*nsyms + s][i*3 + 2] -= tmpd[2];
                 }
                 else continue;
             }
@@ -270,17 +270,17 @@ extern "C" int calculate_sf(double** cell, double** cart, double** scale, int* p
                         tmpd[7] = dangtmp[2]*vecjk[1];
                         tmpd[8] = dangtmp[2]*vecjk[2];
 
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3]     += tmpd[0] - tmpd[6];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 1] += tmpd[1] - tmpd[7];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 2] += tmpd[2] - tmpd[8];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3]     += tmpd[0] - tmpd[6];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 1] += tmpd[1] - tmpd[7];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 2] += tmpd[2] - tmpd[8];
 
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3]     += tmpd[3] + tmpd[6];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3 + 1] += tmpd[4] + tmpd[7];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3 + 2] += tmpd[5] + tmpd[8];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3]     += tmpd[3] + tmpd[6];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3 + 1] += tmpd[4] + tmpd[7];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3 + 2] += tmpd[5] + tmpd[8];
 
-                        dsymf[ii*nsyms + s][natoms*3 + i*3]     -= tmpd[0] + tmpd[3];
-                        dsymf[ii*nsyms + s][natoms*3 + i*3 + 1] -= tmpd[1] + tmpd[4];
-                        dsymf[ii*nsyms + s][natoms*3 + i*3 + 2] -= tmpd[2] + tmpd[5];
+                        dsymf[ii*nsyms + s][i*3]     -= tmpd[0] + tmpd[3];
+                        dsymf[ii*nsyms + s][i*3 + 1] -= tmpd[1] + tmpd[4];
+                        dsymf[ii*nsyms + s][i*3 + 2] -= tmpd[2] + tmpd[5];
                     }
                     else if ((params_i[s][0] == 5) &&
                            (((params_i[s][1] == nei_list_i[j*2]) && (params_i[s][2] == nei_list_i[k*2])) ||
@@ -303,17 +303,17 @@ extern "C" int calculate_sf(double** cell, double** cart, double** scale, int* p
                         tmpd[7] = dangtmp[2]*vecjk[1];
                         tmpd[8] = dangtmp[2]*vecjk[2];
 
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3]     += tmpd[0] - tmpd[6];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 1] += tmpd[1] - tmpd[7];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[j*2 + 1]*3 + 2] += tmpd[2] - tmpd[8];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3]     += tmpd[0] - tmpd[6];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 1] += tmpd[1] - tmpd[7];
+                        dsymf[ii*nsyms + s][nei_list_i[j*2 + 1]*3 + 2] += tmpd[2] - tmpd[8];
 
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3]     += tmpd[3] + tmpd[6];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3 + 1] += tmpd[4] + tmpd[7];
-                        dsymf[ii*nsyms + s][natoms*3 + nei_list_i[k*2 + 1]*3 + 2] += tmpd[5] + tmpd[8];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3]     += tmpd[3] + tmpd[6];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3 + 1] += tmpd[4] + tmpd[7];
+                        dsymf[ii*nsyms + s][nei_list_i[k*2 + 1]*3 + 2] += tmpd[5] + tmpd[8];
 
-                        dsymf[ii*nsyms + s][natoms*3 + i*3]     -= tmpd[0] + tmpd[3];
-                        dsymf[ii*nsyms + s][natoms*3 + i*3 + 1] -= tmpd[1] + tmpd[4];
-                        dsymf[ii*nsyms + s][natoms*3 + i*3 + 2] -= tmpd[2] + tmpd[5];
+                        dsymf[ii*nsyms + s][i*3]     -= tmpd[0] + tmpd[3];
+                        dsymf[ii*nsyms + s][i*3 + 1] -= tmpd[1] + tmpd[4];
+                        dsymf[ii*nsyms + s][i*3 + 2] -= tmpd[2] + tmpd[5];
                     }
                     else continue;
                 }
