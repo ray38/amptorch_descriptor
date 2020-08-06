@@ -86,9 +86,9 @@ class AMPTorchDescriptorBase(ABC):
                                     current_element_grp.create_dataset("fp_primes_size", data=fp_primes_size)
 
                                 indices = np.vstack((fp_primes_row, fp_primes_col))
-                                i = torch.LongTensor(indices)
-                                v = torch.FloatTensor(fp_primes_val)
-                                fp_prims_torch_sparse = torch.sparse.FloatTensor(i, v, torch.Size(fp_primes_size))
+                                torch_indices = torch.LongTensor(indices)
+                                torch_values = torch.FloatTensor(fp_primes_val)
+                                fp_prims_torch_sparse = torch.sparse.FloatTensor(torch_indices, torch_values, torch.Size(fp_primes_size))
 
                                 trajs_fingerprint_list.append(torch.from_numpy(fps))
                                 trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
