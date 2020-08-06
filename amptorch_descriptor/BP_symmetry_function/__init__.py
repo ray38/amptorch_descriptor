@@ -24,6 +24,8 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
 
         self.prepare_descriptor_parameters()
 
+        self.get_descriptor_setup_hash()
+
     def prepare_descriptor_parameters(self):
         # prepare self.params_set
         descriptor_setup = []
