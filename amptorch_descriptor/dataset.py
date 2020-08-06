@@ -29,13 +29,9 @@ class AMPTorchDataset(Dataset):
 
         if calculate_fingerprints:
             self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, calculate_derivatives=self.forcetraining, save=self.store_fingerprints)
+            self.fingerprints_ready = True
+            self.fingerprint_primes_ready = True
 
-        if not self.fingerprints_ready:
-            self.descriptor.prepare_fingerprints()
-        
-        if forcetraining and not descriptor.fingerprint_primes_ready:
-            self.descriptor.prepare_fingerprints()
-        
 
     def __len__(self):
         return len(self.atom_images)

@@ -3,6 +3,7 @@ import numpy as np
 import h5py
 import torch
 import os
+import time
 from .util import get_traj_hash
  
 class AMPTorchDescriptorBase(ABC):
@@ -39,6 +40,8 @@ class AMPTorchDescriptorBase(ABC):
     def prepare_fingerprints(self, trajs, parallel=None, log=None, calculate_derivatives=True, save=True):
         # params_set = self.params_set
 
+        Total_Num_Trajs = len(trajs)
+
         trajs_fingerprint_list = []
         trajs_fingerprint_prime_list = []
 
@@ -50,7 +53,10 @@ class AMPTorchDescriptorBase(ABC):
                 traj_db_filename = "{}/AmpFP-{}-{}.h5".format(self.desc_fp_database_dir, self.descriptor_type, traj_hash)
 
                 with h5py.File(traj_db_filename,'a') as db:
+
+                    Total_Num_Snapshots = len(traj)
                     for i, snapshot in enumerate(traj):
+                        start_time = time.time()
                         try:
                             current_snapshot_grp = db[str(i)]
                         except:
@@ -88,6 +94,9 @@ class AMPTorchDescriptorBase(ABC):
                                 trajs_fingerprint_prime_list.append(trajs_fingerprint_list)
                             else:
                                 print("element not in current snapshot: {}".format(element))
+                        
+                        took_time = time.time() - start_time
+                        print("finished snapshot {}/{}, took time: {}".format(i+1, Total_Num_Snapshots, took_time))
         
         else:
             for traj in list_of_trajs:

@@ -93,8 +93,8 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
 
     def calculate_fingerprints(self, atoms, element, log=None, calculate_derivatives=True):
         # params_set = self.params_set
-        print("starting atoms {}".format(atoms) )
-        print("starting element {}".format(element) )
+        # print("starting atoms {}".format(atoms) )
+        # print("starting element {}".format(element) )
         element_index = ATOM_SYMBOL_TO_INDEX_DICT[element]
 
         symbols = np.array(atoms.get_chemical_symbols())
@@ -113,7 +113,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
             # if not, it could generate bug in training process for force training
             type_idx[atom_index] = np.arange(atom_num)[tmp]
         
-        print("type index: {}".format(type_idx))
+        # print("type index: {}".format(type_idx))
 
         atom_indices_p = ffi.cast("int *", atom_indices.ctypes.data)
 
