@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 import h5py
+import torch
 import os
 from .util import get_traj_hash
  
