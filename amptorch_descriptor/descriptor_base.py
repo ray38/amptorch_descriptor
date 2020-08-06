@@ -49,6 +49,7 @@ class AMPTorchDescriptorBase(ABC):
             self.setup_fingerprint_database()
 
             for traj in trajs:
+                traj_start_time = time.time()
                 traj_hash = get_traj_hash(traj)
                 traj_db_filename = "{}/AmpFP-{}-{}.h5".format(self.desc_fp_database_dir, self.descriptor_type, traj_hash)
 
@@ -97,7 +98,9 @@ class AMPTorchDescriptorBase(ABC):
                         
                         took_time = time.time() - start_time
                         print("finished snapshot {}/{}, took time: {}".format(i+1, Total_Num_Snapshots, took_time))
-        
+                
+                print("finished traj, took {}".format(time.time() - traj_start_time))
+
         else:
             for traj in list_of_trajs:
                 for i, snapshot in enumerate(traj):
