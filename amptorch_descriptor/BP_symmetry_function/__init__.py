@@ -68,7 +68,7 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
             self.params_set[element_index]["d"] = params_d
             self.params_set[element_index]['ip'] = _gen_2Darray_for_ffi(self.params_set[element_index]['i'], ffi, "int")
             self.params_set[element_index]['dp'] = _gen_2Darray_for_ffi(self.params_set[element_index]['d'], ffi)
-            self.params_set[element_index]['total'] = np.concatenate((params_set[element_index]['i'], params_set[element_index]['d']), axis=1)
+            self.params_set[element_index]['total'] = np.concatenate((self.params_set[element_index]['i'], self.params_set[element_index]['d']), axis=1)
             self.params_set[element_index]['num'] = len(self.descriptor_setup)
 
         return
