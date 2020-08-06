@@ -69,7 +69,7 @@ class AMPTorchDescriptorBase(ABC):
                                 fp_primes_size = np.array(current_element_grp["fp_primes_size"])
                             except: 
                                 fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
-                                    self.calculate_fingerprints(self, snapshot, element, calculate_derivatives=calculate_derivatives)
+                                    self.calculate_fingerprints(snapshot, element, calculate_derivatives=calculate_derivatives)
 
                                 current_element_grp.create_dataset("fps", data=fps)
                                 current_element_grp.create_dataset("fp_primes_val", data=fp_primes_val)
