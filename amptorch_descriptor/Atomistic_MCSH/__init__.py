@@ -62,6 +62,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             self.params_set[element_index]['gaussian_params'] = self.atomic_gaussian_setup[element_index]
             self.params_set[element_index]['gaussian_count']  = len(self.atomic_gaussian_setup[element_index])
             ngaussian_list.append(self.params_set[element_index]['gaussian_params'])
+            print("self.params_set[element_index]: {}".format(self.params_set[element_index]))
 
         print("ngaussian_list: {}".format(ngaussian_list))
         ngaussian_list = np.asarray(ngaussian_list, dtype=np.intc, order='C')
@@ -76,6 +77,9 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set['ngaussians_p'] = ffi.cast("int *", ngaussian_list.ctypes.data)
         self.params_set['gaussian_params'] = overall_gaussian_params
         self.params_set['gaussian_params_p'] = _gen_2Darray_for_ffi(overall_gaussian_params, ffi)
+
+        print("ngaussians: {}".format(self.params_set["ngaussians"]))
+        print("gaussian_params: {}".format(self.params_set["gaussian_params"]))
 
         params_i = np.asarray(self.descriptor_setup[:,:2].copy(), dtype=np.intc, order='C')
         params_d = np.asarray(self.descriptor_setup[:,2:].copy(), dtype=np.float64, order='C')
