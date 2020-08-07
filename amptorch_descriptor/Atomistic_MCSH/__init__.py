@@ -62,9 +62,9 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             self.params_set[element_index]['gaussian_params'] = self.atomic_gaussian_setup[element_index]
             self.params_set[element_index]['gaussian_count']  = int(len(self.atomic_gaussian_setup[element_index]) / 2)
             ngaussian_list.append(self.params_set[element_index]['gaussian_count'])
-            print("self.params_set[element_index]: {}".format(self.params_set[element_index]))
+            # print("self.params_set[element_index]: {}".format(self.params_set[element_index]))
 
-        print("ngaussian_list: {}".format(ngaussian_list))
+        # print("ngaussian_list: {}".format(ngaussian_list))
         ngaussian_list = np.asarray(ngaussian_list, dtype=np.intc, order='C')
         max_gaussian_count = np.max(ngaussian_list)
         overall_gaussian_params = list()
@@ -79,8 +79,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set['gaussian_params'] = overall_gaussian_params
         self.params_set['gaussian_params_p'] = _gen_2Darray_for_ffi(overall_gaussian_params, ffi)
 
-        print("ngaussians: {}".format(self.params_set["ngaussians"]))
-        print("gaussian_params: {}".format(self.params_set["gaussian_params"]))
+        # print("ngaussians: {}".format(self.params_set["ngaussians"]))
+        # print("gaussian_params: {}".format(self.params_set["gaussian_params"]))
 
         params_i = np.asarray(self.descriptor_setup[:,:2].copy(), dtype=np.intc, order='C')
         params_d = np.asarray(self.descriptor_setup[:,2:].copy(), dtype=np.float64, order='C')
@@ -197,6 +197,10 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         cal_atoms = np.asarray(type_idx[element_index], dtype=np.intc, order='C')
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
+
+        print(self.params_set['gaussian_params'])
+        print(self.params_set['ngaussians'])
+        print(atom_indices)
 
         # if calculate_derivatives:
         x = np.zeros([cal_num, self.params_set['num']], dtype=np.float64, order='C')
