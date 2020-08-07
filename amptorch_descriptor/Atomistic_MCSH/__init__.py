@@ -84,8 +84,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
         params_i = np.asarray(self.descriptor_setup[:,:2].copy(), dtype=np.intc, order='C')
         params_d = np.asarray(self.descriptor_setup[:,2:].copy(), dtype=np.float64, order='C')
-        self.params_set[element_index]["i"] = params_i
-        self.params_set[element_index]["d"] = params_d
+        self.params_set["i"] = params_i
+        self.params_set["d"] = params_d
 
         self.params_set['ip'] = _gen_2Darray_for_ffi(self.params_set['i'], ffi, "int")
         self.params_set['dp'] = _gen_2Darray_for_ffi(self.params_set['d'], ffi)
