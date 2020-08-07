@@ -18,9 +18,9 @@ MCSHs = {   "MCSHs": {
                         "4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3, 0.4]}
                   }
             "atom_gaussians": {
-                        "H": "H_pseudodensity_6.g"
-                        "O": "O_pseudodensity_6.g
-                        "Fe": "Pt_pseudodensity_8.g"
+                        "H": "./MCSH_potential/H_pseudodensity_6.g"
+                        "O": "./MCSH_potential/O_pseudodensity_6.g
+                        "Fe": "./MCSH_potential/Pt_pseudodensity_8.g"
                   }
             "cutoff": 6.5}
 
@@ -29,7 +29,7 @@ MCSHs = {   "MCSHs": {
 large = Trajectory('./large/iron_data.traj')
 trajectories = [large]
 
-descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
+# descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
 
-# descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
+descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
 training_data = AMPTorchDataset(trajectories, descriptor)
