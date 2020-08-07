@@ -219,7 +219,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
         errno = lib.calculate_atomistic_mcsh(cell_p, cart_p, scale_p, pbc_p,\
                     atom_indices_p, atom_num, cal_atoms_p, cal_num, \
-                    self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'],\
+                    self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'], self.params_set['element_index_to_order_p'],\
                     x_p, dx_p)
                 
         fp = np.array(x)
