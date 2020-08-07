@@ -1,6 +1,6 @@
 import numpy as np
 from amptorch_descriptor.BP_symmetry_function import BPSymmetryFunction
-# from amptorch_descriptor.Atomistic_MCSH import AtomisticMCSH
+from amptorch_descriptor.Atomistic_MCSH import AtomisticMCSH
 from amptorch_descriptor.dataset import AMPTorchDataset
 from ase.io.trajectory import Trajectory
 from ase.io import read
@@ -16,12 +16,12 @@ MCSHs = {   "MCSHs": {
                         "2": {"groups": [1,2], "sigmas": [0.1, 0.2, 0.3, 0.4]},
                         "3": {"groups": [1,2,3], "sigmas": [0.1, 0.2, 0.3, 0.4]},
                         "4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3, 0.4]}
-                  }
+                  },
             "atom_gaussians": {
                         "H": "./MCSH_potential/H_pseudodensity_6.g"
                         "O": "./MCSH_potential/O_pseudodensity_6.g
                         "Fe": "./MCSH_potential/Pt_pseudodensity_8.g"
-                  }
+                  },
             "cutoff": 6.5}
 
 # small = read('./small/water.extxyz', index=':')
