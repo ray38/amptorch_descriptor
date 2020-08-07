@@ -42,7 +42,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         for element in self.elements:
             params = list()
             # count = 0
-            filename = self.MCSHs["MCSHs"]["atom_gaussians"][element]
+            filename = self.MCSHs["atom_gaussians"][element]
             with open(filename, 'r') as fil:
                 for line in fil:
                     tmp = line.split()
