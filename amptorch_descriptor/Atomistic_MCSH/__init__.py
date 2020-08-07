@@ -73,6 +73,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             temp[:self.params_set[element_index]['gaussian_count']*2] = self.params_set[element_index]['gaussian_params']
             overall_gaussian_params.append(temp)
         
+        overall_gaussian_params = np.asarray(overall_gaussian_params, dtype=np.float64, order='C')
         self.params_set['ngaussians'] = ngaussian_list
         self.params_set['ngaussians_p'] = ffi.cast("int *", ngaussian_list.ctypes.data)
         self.params_set['gaussian_params'] = overall_gaussian_params
