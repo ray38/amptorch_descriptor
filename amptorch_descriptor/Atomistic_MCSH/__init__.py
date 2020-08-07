@@ -60,7 +60,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         for element_index in self.element_indices:
             self.params_set[element_index] = dict()
             self.params_set[element_index]['gaussian_params'] = self.atomic_gaussian_setup[element_index]
-            self.params_set[element_index]['gaussian_count']  = len(self.atomic_gaussian_setup[element_index]) / 2
+            self.params_set[element_index]['gaussian_count']  = int(len(self.atomic_gaussian_setup[element_index]) / 2)
             ngaussian_list.append(self.params_set[element_index]['gaussian_count'])
             print("self.params_set[element_index]: {}".format(self.params_set[element_index]))
 
