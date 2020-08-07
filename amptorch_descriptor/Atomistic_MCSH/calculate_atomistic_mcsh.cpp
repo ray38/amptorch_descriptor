@@ -30,7 +30,7 @@
 
 extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** scale, int* pbc_bools,
                                         int* atom_i, int natoms, int* cal_atoms, int cal_num,
-                                        int** params_i, double** params_d, int nmcsh, double** atom_gaussian, int* ngaussians,
+                                        int** params_i, double** params_d, int nmcsh, double** atom_gaussian, int* ngaussians, int* element_index_to_order,
                                         double** mcsh, double** dmcsh) {
 
     int total_bins, max_atoms_bin, bin_num, neigh_check_bins, nneigh;
@@ -211,12 +211,11 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
                 for (int j = 0; j < nneigh; ++j) {
                     double dMdx = 0, dMdy = 0, dMdz = 0;
 
-                    int neigh_atom_type = nei_list_i[j*2];
-                    // cout << neigh_atom_type;
-                    // cout << ngaussians[neigh_atom_type-1];
+                    int neigh_atom_element_index = nei_list_i[j*2];
+                    int neigh_atom_element_order = element_index_to_order[neigh_atom_element_index];
                     double x0 = nei_list_d[j*4], y0 = nei_list_d[j*4+1], z0 = nei_list_d[j*4+2], r0_sqr = nei_list_d[j*4+3];
-                    for (int g = 0; g < ngaussians[neigh_atom_type-1]; ++g){
-                        double B = atom_gaussian[neigh_atom_type-1][g*2], alpha = atom_gaussian[neigh_atom_type-1][g*2+1];
+                    for (int g = 0; g < ngaussians[neigh_atom_element_order]; ++g){
+                        double B = atom_gaussian[neigh_atom_element_order][g*2], alpha = atom_gaussian[neigh_atom_element_order][g*2+1];
                         mcsh_function(x0, y0, z0, r0_sqr, A, B, alpha, beta, m_desc, deriv);
                         M += m_desc[0];
                         dMdx += deriv[0];
@@ -242,10 +241,11 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
                 double sum_dmiu3_dxj[nneigh], sum_dmiu3_dyj[nneigh], sum_dmiu3_dzj[nneigh];
                 double miu[3], deriv[9];
                 for (int j = 0; j < nneigh; ++j) {
-                    int neigh_atom_type = nei_list_i[j*2];
+                    int neigh_atom_element_index = nei_list_i[j*2];
+                    int neigh_atom_element_order = element_index_to_order[neigh_atom_element_index];
                     double x0 = nei_list_d[j*4], y0 = nei_list_d[j*4+1], z0 = nei_list_d[j*4+2], r0_sqr = nei_list_d[j*4+3];
-                    for (int g = 0; g < ngaussians[neigh_atom_type-1]; ++g){
-                        double B = atom_gaussian[neigh_atom_type-1][g*2], alpha = atom_gaussian[neigh_atom_type-1][g*2+1];
+                    for (int g = 0; g < ngaussians[neigh_atom_element_order]; ++g){
+                        double B = atom_gaussian[neigh_atom_element_order][g*2], alpha = atom_gaussian[neigh_atom_element_order][g*2+1];
                         mcsh_function(x0, y0, z0, r0_sqr, A, B, alpha, beta, miu, deriv);
                         // miu: miu_1, miu_2, miu_3
                         // deriv: dmiu1_dxj, dmiu1_dyj, dmiu1_dzj, dmiu2_dxj, dmiu2_dyj, dmiu2_dzj, dmiu3_dxj, dmiu3_dyj, dmiu3_dzj
@@ -289,10 +289,11 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
 
                 double miu[6], deriv[18];
                 for (int j = 0; j < nneigh; ++j) {
-                    int neigh_atom_type = nei_list_i[j*2];
+                    int neigh_atom_element_index = nei_list_i[j*2];
+                    int neigh_atom_element_order = element_index_to_order[neigh_atom_element_index];
                     double x0 = nei_list_d[j*4], y0 = nei_list_d[j*4+1], z0 = nei_list_d[j*4+2], r0_sqr = nei_list_d[j*4+3];
-                    for (int g = 0; g < ngaussians[neigh_atom_type-1]; ++g){
-                        double B = atom_gaussian[neigh_atom_type-1][g*2], alpha = atom_gaussian[neigh_atom_type-1][g*2+1];
+                    for (int g = 0; g < ngaussians[neigh_atom_element_order]; ++g){
+                        double B = atom_gaussian[neigh_atom_element_order][g*2], alpha = atom_gaussian[neigh_atom_element_order][g*2+1];
                         mcsh_function(x0, y0, z0, r0_sqr, A, B, alpha, beta, miu, deriv);
                         // miu: miu_1, miu_2, miu_3
                         // deriv: dmiu1_dxj, dmiu1_dyj, dmiu1_dzj, dmiu2_dxj, dmiu2_dyj, dmiu2_dzj, dmiu3_dxj, dmiu3_dyj, dmiu3_dzj
