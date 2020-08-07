@@ -208,6 +208,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
         print(self.params_set['gaussian_params'])
         print(self.params_set['ngaussians'])
+        print(self.params_set['element_index_to_order'])
         print(atom_indices)
 
         # if calculate_derivatives:
