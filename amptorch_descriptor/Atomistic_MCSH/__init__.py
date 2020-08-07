@@ -61,14 +61,14 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             self.params_set[element_index] = dict()
             self.params_set[element_index]['gaussian_params'] = self.atomic_gaussian_setup[element_index]
             self.params_set[element_index]['gaussian_count']  = len(self.atomic_gaussian_setup[element_index])
-            ngaussian_list.append(params_set[element_index]['gaussian_params'])
+            ngaussian_list.append(self.params_set[element_index]['gaussian_params'])
 
         ngaussian_list = np.asarray(ngaussian_list, dtype=np.intc, order='C')
         max_gaussian_count = np.max(ngaussian_list)
         overall_gaussian_params = list()
         for element_index in self.element_indices:
             temp = np.zeros(max_gaussian_count * 2)
-            temp[:self.params_set[element_index]['gaussian_count']*2] = params_set[element_index]['gaussian_params']
+            temp[:self.params_set[element_index]['gaussian_count']*2] = self.params_set[element_index]['gaussian_params']
             overall_gaussian_params.append(temp)
         
         self.params_set['ngaussians'] = ngaussian_list
@@ -81,10 +81,10 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set[element_index]["i"] = params_i
         self.params_set[element_index]["d"] = params_d
 
-        self.params_set['ip'] = _gen_2Darray_for_ffi(params_set['i'], ffi, "int")
-        self.params_set['dp'] = _gen_2Darray_for_ffi(params_set['d'], ffi)
-        self.params_set['total'] = np.concatenate((params_set['i'], params_set['d']), axis=1)
-        self.params_set['num'] = len(params_set['total'])
+        self.params_set['ip'] = _gen_2Darray_for_ffi(self.params_set['i'], ffi, "int")
+        self.params_set['dp'] = _gen_2Darray_for_ffi(self.params_set['d'], ffi)
+        self.params_set['total'] = np.concatenate((self.params_set['i'], self.params_set['d']), axis=1)
+        self.params_set['num'] = len(self.params_set['total'])
 
         # # prepare self.params_set
         # descriptor_setup = []
