@@ -63,6 +63,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             self.params_set[element_index]['gaussian_count']  = len(self.atomic_gaussian_setup[element_index])
             ngaussian_list.append(self.params_set[element_index]['gaussian_params'])
 
+        print("ngaussian_list: {}".format(ngaussian_list))
         ngaussian_list = np.asarray(ngaussian_list, dtype=np.intc, order='C')
         max_gaussian_count = np.max(ngaussian_list)
         overall_gaussian_params = list()
