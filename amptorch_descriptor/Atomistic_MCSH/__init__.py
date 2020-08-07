@@ -199,8 +199,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
         # if calculate_derivatives:
-        x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
-        dx = np.zeros([cal_num * self.params_set[element_index]['num'], atom_num * 3], dtype=np.float64, order='C')
+        x = np.zeros([cal_num, self.params_set['num']], dtype=np.float64, order='C')
+        dx = np.zeros([cal_num * self.params_set['num'], atom_num * 3], dtype=np.float64, order='C')
 
         x_p = _gen_2Darray_for_ffi(x, ffi)
         dx_p = _gen_2Darray_for_ffi(dx, ffi)
