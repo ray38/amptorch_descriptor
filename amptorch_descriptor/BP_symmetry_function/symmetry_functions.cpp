@@ -83,3 +83,43 @@ double G5(double Rij, double Rik, double powtwo, \
 
     return powcos*cosv * expl * precal[0] * precal[2];
 }
+
+
+double G2_noderiv(double Rij, double *precal, double *par) {
+    // par[0] = cutoff_dist
+    // par[1] = eta
+    // par[2] = R_s
+    double tmp = Rij-par[2];
+    double expl = exp(-par[1]*tmp*tmp);
+    return expl*precal[0];
+}
+
+double G4_noderiv(double Rij, double Rik, double Rjk, double powtwo, \
+          double *precal, double *par) {
+    // cosv: cos(theta)
+    // par[0] = cutoff_dist
+    // par[1] = eta
+    // par[2] = zeta
+    // par[3] = lambda
+    double expl = exp(-par[1]*precal[6]) * powtwo;
+    double cosv = 1 + par[3]*precal[7];
+    //double powcos = pow_int(cosv, par[2]-1);
+    double powcos = pow(fabs(cosv), fabs(par[2]-1));
+
+    return powcos*cosv * expl * precal[0] * precal[2] * precal[4];
+}
+
+double G5_noderiv(double Rij, double Rik, double powtwo, \
+          double *precal, double *par) {
+    // cosv: cos(theta)
+    // par[0] = cutoff_dist
+    // par[1] = eta
+    // par[2] = zeta
+    // par[3] = lambda
+    double expl = exp(-par[1]*precal[11]) * powtwo;
+    double cosv = 1 + par[3]*precal[7];
+    //double powcos = pow_int(cosv, par[2]-1);
+    double powcos = pow(fabs(cosv), fabs(par[2]-1));
+
+    return powcos*cosv * expl * precal[0] * precal[2];
+}

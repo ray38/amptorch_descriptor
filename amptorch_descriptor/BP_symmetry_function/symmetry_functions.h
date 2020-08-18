@@ -23,3 +23,7 @@ double dcutf(double, double);
 double G2(double, double *, double *, double &);
 double G4(double, double, double, double, double *, double *, double *);
 double G5(double, double, double, double *, double *, double *);
+
+double G2_noderiv(double, double *, double *, double &);
+double G4_noderiv(double, double, double, double, double *, double *, double *);
+double G5_noderiv(double, double, double, double *, double *, double *);

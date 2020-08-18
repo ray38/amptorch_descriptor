@@ -61,7 +61,6 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
 
     cutoff = 0.0;
     // let cutoff equal to the maximum of Rc
-    // if the third parameter < 1.0 for G4 and G5, return error code 2
     for (int m = 0; m < nmcsh; ++m) {
         if (cutoff < params_d[m][4])
             cutoff = params_d[m][4];
