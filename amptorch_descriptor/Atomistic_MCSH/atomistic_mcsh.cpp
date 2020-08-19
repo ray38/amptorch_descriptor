@@ -6285,5 +6285,7 @@ AtomisticMCSHFunction get_mcsh_function(int mcsh_order, int group_num)
         } else if (group_num == 12){
             return calc_MCSH_9_12;
         }
+    } else {
+        return calc_MCSH_0_1;
     }
 }
