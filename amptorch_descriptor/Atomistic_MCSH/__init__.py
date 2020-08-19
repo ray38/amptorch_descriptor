@@ -205,6 +205,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
+        print(self.params_set['i'])
+        print(self.params_set['d'])
         print(self.params_set['gaussian_params'])
         print(self.params_set['ngaussians'])
         print(self.params_set['element_index_to_order'])
@@ -229,8 +231,9 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         fp_prime = np.array(dx)
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         print(fp)
+        print(fp.shape)
         print(scipy_sparse_fp_prime.data)
-        print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
+        print("density: {}% \n\n\n----------------------".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
         return size_info, fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
         
