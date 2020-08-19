@@ -208,6 +208,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         print(self.params_set['gaussian_params'])
         print(self.params_set['ngaussians'])
         print(self.params_set['element_index_to_order'])
+        print(self.params_set['num'])
         # print(atom_indices)
 
         size_info = np.array([atom_num, cal_num, self.params_set['num']])
@@ -227,6 +228,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         fp = np.array(x)
         fp_prime = np.array(dx)
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
+        print(fp)
         print(scipy_sparse_fp_prime.data)
         print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
