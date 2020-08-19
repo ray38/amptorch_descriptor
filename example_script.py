@@ -40,6 +40,6 @@ MCSHs = {   "MCSHs": {
 # descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
 
 descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
-descriptor_calculator = AMPTorchDataset(trajectories, descriptor)
+descriptor_calculator = DescriptorCalculator(trajectories, descriptor)
 
 descriptor_calculator.calculate_PCA(n_components = 10)
