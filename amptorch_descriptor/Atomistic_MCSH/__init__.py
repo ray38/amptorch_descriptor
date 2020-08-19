@@ -28,7 +28,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
     def prepare_descriptor_parameters(self):
         descriptor_setup = []
         cutoff = self.MCSHs["cutoff"]
-        for i in range(9):
+        for i in range(20):
             if str(i) in self.MCSHs["MCSHs"].keys():
                 descriptor_setup += [
                                         [i, group, sigma, 1.0, 1/(sigma * np.sqrt(2*np.pi)), 1/(2*sigma*sigma), cutoff]
@@ -99,51 +99,6 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set['total'] = np.concatenate((self.params_set['i'], self.params_set['d']), axis=1)
         self.params_set['num'] = len(self.params_set['total'])
 
-        # # prepare self.params_set
-        # descriptor_setup = []
-        # cutoff = self.Gs["cutoff"]
-        # # element_indices = list_symbols_to_indices(self.elements)
-        # if "G2" in self.Gs:
-        #     descriptor_setup += [
-        #         [2, element1, 0, cutoff, eta, rs, 0.0]
-        #         for element1 in self.element_indices
-        #         for eta in self.Gs["G2"]["etas"]
-        #         for rs in self.Gs["G2"]["rs_s"]
-        #     ]
-        
-        # if "G4" in self.Gs:
-        #     descriptor_setup += [
-        #         [4, element1, element2, cutoff, eta, zeta, gamma]
-        #         for element1 in self.element_indices
-        #         for element2 in self.element_indices
-        #         for eta in self.Gs["G4"]["etas"]
-        #         for zeta in self.Gs["G4"]["zetas"]
-        #         for gamma in self.Gs["G4"]["gammas"]
-        #     ]
-
-        # if "G5" in self.Gs:
-        #     descriptor_setup += [
-        #         [4, element1, element2, cutoff, eta, zeta, gamma]
-        #         for element1 in self.element_indices
-        #         for element2 in self.element_indices
-        #         for eta in self.Gs["G4"]["etas"]
-        #         for zeta in self.Gs["G4"]["zetas"]
-        #         for gamma in self.Gs["G4"]["gammas"]
-        #     ]
-
-        # self.descriptor_setup = np.array(descriptor_setup)
-
-        # self.params_set = dict()
-        # for element_index in self.element_indices:
-        #     self.params_set[element_index] = dict()
-        #     params_i = np.asarray(self.descriptor_setup[:,:3].copy(), dtype=np.intc, order='C')
-        #     params_d = np.asarray(self.descriptor_setup[:,3:].copy(), dtype=np.float64, order='C')
-        #     self.params_set[element_index]["i"] = params_i
-        #     self.params_set[element_index]["d"] = params_d
-        #     self.params_set[element_index]['ip'] = _gen_2Darray_for_ffi(self.params_set[element_index]['i'], ffi, "int")
-        #     self.params_set[element_index]['dp'] = _gen_2Darray_for_ffi(self.params_set[element_index]['d'], ffi)
-        #     self.params_set[element_index]['total'] = np.concatenate((self.params_set[element_index]['i'], self.params_set[element_index]['d']), axis=1)
-        #     self.params_set[element_index]['num'] = len(self.descriptor_setup)
 
         return
     
@@ -226,7 +181,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
                     atom_indices_p, atom_num, cal_atoms_p, cal_num, \
                     self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'], self.params_set['element_index_to_order_p'],\
                     x_p, dx_p)
-                
+        
+        print(errno)
         fp = np.array(x)
         fp_prime = np.array(dx)
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
