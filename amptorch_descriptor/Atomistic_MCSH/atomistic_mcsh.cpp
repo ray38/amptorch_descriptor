@@ -6191,101 +6191,100 @@ AtomisticMCSHFunction get_mcsh_function(int mcsh_order, int group_num)
         } else if (group_num == 4){
             return calc_MCSH_4_4;
         }
-    } else if (mcsh_order == 5) {
-        if (group_num == 1) {
-            return calc_MCSH_5_1;
-        } else if (group_num == 2){
-            return calc_MCSH_5_2;
-        } else if (group_num == 3){
-            return calc_MCSH_5_3;
-        } else if (group_num == 4){
-            return calc_MCSH_5_4;
-        } else if (group_num == 5){
-            return calc_MCSH_5_5;
-        }
-    } else if (mcsh_order == 6) {
-        if (group_num == 1) {
-            return calc_MCSH_6_1;
-        } else if (group_num == 2){
-            return calc_MCSH_6_2;
-        } else if (group_num == 3){
-            return calc_MCSH_6_3;
-        } else if (group_num == 4){
-            return calc_MCSH_6_4;
-        } else if (group_num == 5){
-            return calc_MCSH_6_5;
-        } else if (group_num == 6){
-            return calc_MCSH_6_6;
-        } else if (group_num == 7){
-            return calc_MCSH_6_7;
-        }
-    } else if (mcsh_order == 7) {
-        if (group_num == 1) {
-            return calc_MCSH_7_1;
-        } else if (group_num == 2){
-            return calc_MCSH_7_2;
-        } else if (group_num == 3){
-            return calc_MCSH_7_3;
-        } else if (group_num == 4){
-            return calc_MCSH_7_4;
-        } else if (group_num == 5){
-            return calc_MCSH_7_5;
-        } else if (group_num == 6){
-            return calc_MCSH_7_6;
-        } else if (group_num == 7){
-            return calc_MCSH_7_7;
-        } else if (group_num == 8){
-            return calc_MCSH_7_8;
-        }
-    } else if (mcsh_order == 8) {
-        if (group_num == 1) {
-            return calc_MCSH_8_1;
-        } else if (group_num == 2){
-            return calc_MCSH_8_2;
-        } else if (group_num == 3){
-            return calc_MCSH_8_3;
-        } else if (group_num == 4){
-            return calc_MCSH_8_4;
-        } else if (group_num == 5){
-            return calc_MCSH_8_5;
-        } else if (group_num == 6){
-            return calc_MCSH_8_6;
-        } else if (group_num == 7){
-            return calc_MCSH_8_7;
-        } else if (group_num == 8){
-            return calc_MCSH_8_8;
-        } else if (group_num == 9){
-            return calc_MCSH_8_9;
-        } else if (group_num == 10){
-            return calc_MCSH_8_10;
-        }
-    } else if (mcsh_order == 9) {
-        if (group_num == 1) {
-            return calc_MCSH_9_1;
-        } else if (group_num == 2){
-            return calc_MCSH_9_2;
-        } else if (group_num == 3){
-            return calc_MCSH_9_3;
-        } else if (group_num == 4){
-            return calc_MCSH_9_4;
-        } else if (group_num == 5){
-            return calc_MCSH_9_5;
-        } else if (group_num == 6){
-            return calc_MCSH_9_6;
-        } else if (group_num == 7){
-            return calc_MCSH_9_7;
-        } else if (group_num == 8){
-            return calc_MCSH_9_8;
-        } else if (group_num == 9){
-            return calc_MCSH_9_9;
-        } else if (group_num == 10){
-            return calc_MCSH_9_10;
-        } else if (group_num == 11){
-            return calc_MCSH_9_11;
-        } else if (group_num == 12){
-            return calc_MCSH_9_12;
-        }
-    } else {
-        return calc_MCSH_0_1;
     }
+    // } else if (mcsh_order == 5) {
+    //     if (group_num == 1) {
+    //         return calc_MCSH_5_1;
+    //     } else if (group_num == 2){
+    //         return calc_MCSH_5_2;
+    //     } else if (group_num == 3){
+    //         return calc_MCSH_5_3;
+    //     } else if (group_num == 4){
+    //         return calc_MCSH_5_4;
+    //     } else if (group_num == 5){
+    //         return calc_MCSH_5_5;
+    //     }
+    // } else if (mcsh_order == 6) {
+    //     if (group_num == 1) {
+    //         return calc_MCSH_6_1;
+    //     } else if (group_num == 2){
+    //         return calc_MCSH_6_2;
+    //     } else if (group_num == 3){
+    //         return calc_MCSH_6_3;
+    //     } else if (group_num == 4){
+    //         return calc_MCSH_6_4;
+    //     } else if (group_num == 5){
+    //         return calc_MCSH_6_5;
+    //     } else if (group_num == 6){
+    //         return calc_MCSH_6_6;
+    //     } else if (group_num == 7){
+    //         return calc_MCSH_6_7;
+    //     }
+    // } else if (mcsh_order == 7) {
+    //     if (group_num == 1) {
+    //         return calc_MCSH_7_1;
+    //     } else if (group_num == 2){
+    //         return calc_MCSH_7_2;
+    //     } else if (group_num == 3){
+    //         return calc_MCSH_7_3;
+    //     } else if (group_num == 4){
+    //         return calc_MCSH_7_4;
+    //     } else if (group_num == 5){
+    //         return calc_MCSH_7_5;
+    //     } else if (group_num == 6){
+    //         return calc_MCSH_7_6;
+    //     } else if (group_num == 7){
+    //         return calc_MCSH_7_7;
+    //     } else if (group_num == 8){
+    //         return calc_MCSH_7_8;
+    //     }
+    // } else if (mcsh_order == 8) {
+    //     if (group_num == 1) {
+    //         return calc_MCSH_8_1;
+    //     } else if (group_num == 2){
+    //         return calc_MCSH_8_2;
+    //     } else if (group_num == 3){
+    //         return calc_MCSH_8_3;
+    //     } else if (group_num == 4){
+    //         return calc_MCSH_8_4;
+    //     } else if (group_num == 5){
+    //         return calc_MCSH_8_5;
+    //     } else if (group_num == 6){
+    //         return calc_MCSH_8_6;
+    //     } else if (group_num == 7){
+    //         return calc_MCSH_8_7;
+    //     } else if (group_num == 8){
+    //         return calc_MCSH_8_8;
+    //     } else if (group_num == 9){
+    //         return calc_MCSH_8_9;
+    //     } else if (group_num == 10){
+    //         return calc_MCSH_8_10;
+    //     }
+    // } else if (mcsh_order == 9) {
+    //     if (group_num == 1) {
+    //         return calc_MCSH_9_1;
+    //     } else if (group_num == 2){
+    //         return calc_MCSH_9_2;
+    //     } else if (group_num == 3){
+    //         return calc_MCSH_9_3;
+    //     } else if (group_num == 4){
+    //         return calc_MCSH_9_4;
+    //     } else if (group_num == 5){
+    //         return calc_MCSH_9_5;
+    //     } else if (group_num == 6){
+    //         return calc_MCSH_9_6;
+    //     } else if (group_num == 7){
+    //         return calc_MCSH_9_7;
+    //     } else if (group_num == 8){
+    //         return calc_MCSH_9_8;
+    //     } else if (group_num == 9){
+    //         return calc_MCSH_9_9;
+    //     } else if (group_num == 10){
+    //         return calc_MCSH_9_10;
+    //     } else if (group_num == 11){
+    //         return calc_MCSH_9_11;
+    //     } else if (group_num == 12){
+    //         return calc_MCSH_9_12;
+    //     }
+    // } 
 }
