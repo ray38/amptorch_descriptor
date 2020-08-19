@@ -1,6 +1,6 @@
 #include <math.h>
 
-const int IMPLEMENTED_MCSH_TYPE[11][2] = {
+const int IMPLEMENTED_MCSH_TYPE[][2] = {
     {0, 1},
     {1, 1},
     {2, 1},
