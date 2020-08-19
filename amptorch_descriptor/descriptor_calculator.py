@@ -21,7 +21,8 @@ class DescriptorCalculator:
         self.trajs = trajs
         self.descriptor = descriptor
         self.calculate_descriptor_primes = calculate_descriptor_primes
-        self.calculate_fingerprints = calculate_fingerprints
+        self.training_data = training_data
+        # self.calculate_fingerprints = calculate_fingerprints
         self.store_descriptors = store_descriptors
 
         self.element_list = self.descriptor._get_element_list()
