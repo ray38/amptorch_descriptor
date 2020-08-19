@@ -167,7 +167,7 @@ void calc_MCSH_2_2(double x0, double y0, double z0, double r0_sqr, double A, dou
     double const_1_p_2_C2_z2 = 1.0 + 2.0 * C2 * z0_sqr;
 
     // dmiu1 dx/dy/dz
-    deriv[0] = dx0dx() * temp * y0 * const_1_p_2_C2_x2 
+    deriv[0] = dx0dx() * temp * y0 * const_1_p_2_C2_x2;
     deriv[1] = dy0dy() * temp * x0 * const_1_p_2_C2_y2; 
     deriv[2] = dz0dz() * miu_2_2_1 * const_2_C2_x;
 
@@ -211,13 +211,13 @@ void calc_MCSH_3_1(double x0, double y0, double z0, double r0_sqr, double A, dou
 
     double temp = C1 * exp( C2 * r0_sqr);
 
-    double temp_x = 15.0 * lambda_x0_sqr + C3 * lambda_x0;
-    double temp_y = 15.0 * lambda_y0_sqr + C3 * lambda_y0;
-    double temp_z = 15.0 * lambda_z0_sqr + C3 * lambda_z0;
+    double temp_x = 15.0 * lambda_x0_3 + C3 * lambda_x0;
+    double temp_y = 15.0 * lambda_y0_3 + C3 * lambda_y0;
+    double temp_z = 15.0 * lambda_z0_3 + C3 * lambda_z0;
 
-    double temp_dx = lambda * (30.0 * lambda_x0 + C3); 
-    double temp_dy = lambda * (30.0 * lambda_y0 + C3);
-    double temp_dz = lambda * (30.0 * lambda_z0 + C3);
+    double temp_dx = lambda * (45.0 * lambda_x0_sqr + C3); 
+    double temp_dy = lambda * (45.0 * lambda_y0_sqr + C3);
+    double temp_dz = lambda * (45.0 * lambda_z0_sqr + C3);
 
     double miu_3_1_1 = temp * temp_x;
     double miu_3_1_2 = temp * temp_y;
@@ -518,9 +518,9 @@ void calc_MCSH_4_3(double x0, double y0, double z0, double r0_sqr, double A, dou
     
     double lambda = calc_lambda(alpha, beta);
     double lambda_sqr = lambda * lambda;
-    // double x0_sqr = x0*x0;
-    // double y0_sqr = y0*y0;
-    // double z0_sqr = z0*z0;
+    double x0_sqr = x0*x0;
+    double y0_sqr = y0*y0;
+    double z0_sqr = z0*z0;
 
     double lambda_x0_sqr = lambda_sqr * x0_sqr;
     double lambda_y0_sqr = lambda_sqr * y0_sqr;
@@ -538,19 +538,19 @@ void calc_MCSH_4_3(double x0, double y0, double z0, double r0_sqr, double A, dou
 
     double temp_term1_x = 105.0 * temp_x_2 - 15.0;
     double temp_term1_y = 105.0 * temp_y_2 - 15.0;
-    double temp_term1_z = 105.0 * temp_z_2 - 15.0;
+    // double temp_term1_z = 105.0 * temp_z_2 - 15.0;
 
     double temp_dterm1_dx = 105.0 * temp_dx_2;
     double temp_dterm1_dy = 105.0 * temp_dy_2;
-    double temp_dterm1_dz = 105.0 * temp_dz_2;
+    // double temp_dterm1_dz = 105.0 * temp_dz_2;
 
     double temp_term2_x = -15.0 * temp_x_2 + 3.0;
     double temp_term2_y = -15.0 * temp_y_2 + 3.0;
-    double temp_term2_z = -15.0 * temp_z_2 + 3.0;
+    // double temp_term2_z = -15.0 * temp_z_2 + 3.0;
 
     double temp_dterm2_dx = -15.0 * temp_dx_2;
     double temp_dterm2_dy = -15.0 * temp_dy_2;
-    double temp_dterm2_dz = -15.0 * temp_dz_2;
+    // double temp_dterm2_dz = -15.0 * temp_dz_2;
 
     double temp = C1 * exp( C2 * r0_sqr);
 
@@ -1706,7 +1706,7 @@ void calc_MCSH_6_5(double x0, double y0, double z0, double r0_sqr, double A, dou
     double C2 = calc_C2(alpha, beta);
     
     double lambda = calc_lambda(alpha, beta);
-    double lambda_sqr = lambda * lambda;
+    // double lambda_sqr = lambda * lambda;
 
     double lambda_x0 = x0 * lambda;
     double lambda_y0 = y0 * lambda;
@@ -1861,12 +1861,12 @@ void calc_MCSH_6_6(double x0, double y0, double z0, double r0_sqr, double A, dou
     double temp_dmiu6_dy = temp_dy_2 * temp_term1_z;
     double temp_dmiu6_dz = temp_y_2 * temp_dterm1_dz + temp_dterm2_dz;
 
-    double miu_7_6_1 = temp * lambda_z0 * temp_miu1;
-    double miu_7_6_2 = temp * lambda_z0 * temp_miu2;
-    double miu_7_6_3 = temp * lambda_y0 * temp_miu3;
-    double miu_7_6_4 = temp * lambda_y0 * temp_miu4;
-    double miu_7_6_5 = temp * lambda_x0 * temp_miu5;
-    double miu_7_6_6 = temp * lambda_x0 * temp_miu6;
+    double miu_6_6_1 = temp * lambda_z0 * temp_miu1;
+    double miu_6_6_2 = temp * lambda_z0 * temp_miu2;
+    double miu_6_6_3 = temp * lambda_y0 * temp_miu3;
+    double miu_6_6_4 = temp * lambda_y0 * temp_miu4;
+    double miu_6_6_5 = temp * lambda_x0 * temp_miu5;
+    double miu_6_6_6 = temp * lambda_x0 * temp_miu6;
 
     //deriv consts
     double const_2_C2_x = 2.0 * C2 * x0; // 2 * C2 * x0
