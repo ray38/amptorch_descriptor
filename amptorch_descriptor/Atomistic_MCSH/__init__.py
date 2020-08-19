@@ -99,6 +99,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set['total'] = np.concatenate((self.params_set['i'], self.params_set['d']), axis=1)
         self.params_set['num'] = len(self.params_set['total'])
 
+        if "prime_threshold" in self.MCSHs:
+            self.params_set["prime_threshold"] = self.MCSHs["prime_threshold"]
 
         return
     
@@ -189,16 +191,16 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
         fp_prime = np.array(dx)
 
-        super_threshold_indices = np.abs(fp_prime) < 1e-10
-        print(np.sum(super_threshold_indices))
-        fp_prime[super_threshold_indices] = 0.0
+        if "prime_threshold" in self.params_set:
+            threshold = self.params_set["prime_threshold"]
+            super_threshold_indices = np.abs(fp_prime) < threshold
+            print("threshhold: {} \tnum points set to zero:{}".format(threshold, np.sum(super_threshold_indices)))
+            fp_prime[super_threshold_indices] = 0.0
 
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         # print(fp)
         # print(fp.shape)
-        for datapoint in np.sort(np.abs(scipy_sparse_fp_prime.data))[:100]:
-            print(datapoint)
-        print(np.sum(super_threshold_indices))
+        # print(np.sum(super_threshold_indices))
         print(np.min(np.abs(scipy_sparse_fp_prime.data)))
         print("density: {}% \n\n----------------------".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
