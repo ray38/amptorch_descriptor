@@ -186,7 +186,11 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
             print("ERROR: descriptor not IMPLEMENTED!!")
         # print(errno)
         fp = np.array(x)
+        
         fp_prime = np.array(dx)
+        super_threshold_indices = np.abs(fp_prime) > 1e-10
+        fp_prime[super_threshold_indices] = 0.0
+
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         # print(fp)
         # print(fp.shape)
