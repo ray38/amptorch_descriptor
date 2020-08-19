@@ -1,7 +1,8 @@
 import numpy as np
 from amptorch_descriptor.BP_symmetry_function import BPSymmetryFunction
 from amptorch_descriptor.Atomistic_MCSH import AtomisticMCSH
-from amptorch_descriptor.dataset import AMPTorchDataset
+# from amptorch_descriptor.dataset import AMPTorchDataset
+from amptorch_descriptor.descriptor_calculator import DescriptorCalculator
 from ase.io.trajectory import Trajectory
 from ase.io import read
 
@@ -21,7 +22,9 @@ MCSHs = {   "MCSHs": {
                         "1": {"groups": [1], "sigmas": [0.1, 0.2, 0.3, 0.4]},
                         "2": {"groups": [1,2], "sigmas": [0.1, 0.2, 0.3, 0.4]},
                         "3": {"groups": [1,2,3], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3, 0.4]}
+                        "4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3, 0.4]},
+                        "5": {"groups": [1,2,3,4,5], "sigmas": [0.1, 0.2, 0.3, 0.4]},
+                        "6": {"groups": [1,2,3,4,5,6,7], "sigmas": [0.1, 0.2, 0.3, 0.4]}
                   },
             "atom_gaussians": {
                         "H": "./MCSH_potential/H_pseudodensity_6.g",
@@ -37,4 +40,6 @@ MCSHs = {   "MCSHs": {
 # descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
 
 descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
-training_data = AMPTorchDataset(trajectories, descriptor)
+descriptor_calculator = AMPTorchDataset(trajectories, descriptor)
+
+descriptor_calculator.calculate_PCA(n_components = 10)

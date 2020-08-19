@@ -11,7 +11,6 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
     def __init__(
         self,
-        # cutoff=Cosine_cutoff(6.5),
         MCSHs,
         elements,
         # mode="atom-centered",
@@ -211,6 +210,8 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         print(self.params_set['element_index_to_order'])
         print(atom_indices)
 
+        size_info = np.array([atom_num, cal_num, self.params_set[element_index]['num']])
+
         # if calculate_derivatives:
         x = np.zeros([cal_num, self.params_set['num']], dtype=np.float64, order='C')
         dx = np.zeros([cal_num * self.params_set['num'], atom_num * 3], dtype=np.float64, order='C')
@@ -228,7 +229,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
-        return fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
+        return size_info, fp, scipy_sparse_fp_prime.data, scipy_sparse_fp_prime.row, scipy_sparse_fp_prime.col, np.array(fp_prime.shape)
         
         # else:
         #     x = np.zeros([cal_num, self.params_set[element_index]['num']], dtype=np.float64, order='C')
@@ -241,5 +242,5 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
                     
         #     fp = np.array(x)
 
-        #     return fp, None, None, None, None
+        #     return size_info, fp, None, None, None, None
 

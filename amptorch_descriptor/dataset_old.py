@@ -36,6 +36,10 @@ class AMPTorchDataset(Dataset):
         if self.forcetraining:
             self.fingerprint_primes_ready = True
 
+    def calculate_PCA(self):
+
+    def apply_PCA(self):
+
     def __len__(self):
         return len(self.atom_images)
 
