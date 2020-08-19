@@ -210,7 +210,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         print(self.params_set['element_index_to_order'])
         print(atom_indices)
 
-        size_info = np.array([atom_num, cal_num, self.params_set[element_index]['num']])
+        size_info = np.array([atom_num, cal_num, self.params_set['num']])
 
         # if calculate_derivatives:
         x = np.zeros([cal_num, self.params_set['num']], dtype=np.float64, order='C')
