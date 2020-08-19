@@ -1,5 +1,6 @@
 #include <math.h>
 
+const int NUM_IMPLEMENTED_TYPE = 53;
 const int IMPLEMENTED_MCSH_TYPE[][2] = {
     {0, 1},
     {1, 1},
@@ -56,7 +57,7 @@ const int IMPLEMENTED_MCSH_TYPE[][2] = {
     {9, 12}
 }; // Change this when you implement new type!
 
-const int NUM_IMPLEMENTED_TYPE = 11;
+
 
 typedef void (*AtomisticMCSHFunction) ( double, double, double, double, double, double, double, double, double *, double *);
 // typedef void (*MCSHFunctionType1) ( double, double, double, double, double, double, double, double *, double *);
