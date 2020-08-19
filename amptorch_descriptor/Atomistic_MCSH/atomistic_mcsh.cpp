@@ -1820,53 +1820,53 @@ void calc_MCSH_6_6(double x0, double y0, double z0, double r0_sqr, double A, dou
     double temp_dy_3 = lambda * (3.0 * lambda_y0_sqr + C3_1);
     double temp_dz_3 = lambda * (3.0 * lambda_z0_sqr + C3_1);
 
-    double temp1_x = 10395.0 * temp_x_3 - 2835.0 * lambda_x0;
-    double temp1_y = 10395.0 * temp_y_3 - 2835.0 * lambda_y0;
-    double temp1_z = 10395.0 * temp_z_3 - 2835.0 * lambda_z0;
+    double temp_term1_x = 10395.0 * temp_x_3 - 2835.0 * lambda_x0;
+    double temp_term1_y = 10395.0 * temp_y_3 - 2835.0 * lambda_y0;
+    double temp_term1_z = 10395.0 * temp_z_3 - 2835.0 * lambda_z0;
 
-    double temp1_dx = 10395.0 * temp_dx_3 - 2835.0 * lambda;
-    double temp1_dy = 10395.0 * temp_dy_3 - 2835.0 * lambda;
-    double temp1_dz = 10395.0 * temp_dz_3 - 2835.0 * lambda;
+    double temp_dterm1_dx = 10395.0 * temp_dx_3 - 2835.0 * lambda;
+    double temp_dterm1_dy = 10395.0 * temp_dy_3 - 2835.0 * lambda;
+    double temp_dterm1_dz = 10395.0 * temp_dz_3 - 2835.0 * lambda;
 
-    double temp2_x = -945.0 * temp_x_3 + 315.0 * lambda_x0;
-    double temp2_y = -945.0 * temp_y_3 + 315.0 * lambda_y0;
-    double temp2_z = -945.0 * temp_z_3 + 315.0 * lambda_z0;
+    double temp_term2_x = -945.0 * temp_x_3 + 315.0 * lambda_x0;
+    double temp_term2_y = -945.0 * temp_y_3 + 315.0 * lambda_y0;
+    double temp_term2_z = -945.0 * temp_z_3 + 315.0 * lambda_z0;
 
-    double temp2_dx = -945.0 * temp_dx_3 + 315.0 * lambda;
-    double temp2_dy = -945.0 * temp_dy_3 + 315.0 * lambda;
-    double temp2_dz = -945.0 * temp_dz_3 + 315.0 * lambda;
+    double temp_dterm2_dx = -945.0 * temp_dx_3 + 315.0 * lambda;
+    double temp_dterm2_dy = -945.0 * temp_dy_3 + 315.0 * lambda;
+    double temp_dterm2_dz = -945.0 * temp_dz_3 + 315.0 * lambda;
 
-    double temp_miu1 = temp_y_3 * temp1_x + temp2_x;
-    double temp_miu2 = temp_x_3 * temp1_y + temp2_y;
-    double temp_miu3 = temp_z_3 * temp1_x + temp2_x;
-    double temp_miu4 = temp_x_3 * temp1_z + temp2_z;
-    double temp_miu5 = temp_z_3 * temp1_y + temp2_y;
-    double temp_miu6 = temp_y_3 * temp1_z + temp2_z;
+    double temp_miu1 = temp_y_2 * temp_term1_x + temp_term2_x;
+    double temp_miu2 = temp_x_2 * temp_term1_y + temp_term2_y;
+    double temp_miu3 = temp_z_2 * temp_term1_x + temp_term2_x;
+    double temp_miu4 = temp_x_2 * temp_term1_z + temp_term2_z;
+    double temp_miu5 = temp_z_2 * temp_term1_y + temp_term2_y;
+    double temp_miu6 = temp_y_2 * temp_term1_z + temp_term2_z;
 
-    double temp_dmiu1_dx = temp_y_3 * temp1_dx + temp2_dx;
-    double temp_dmiu1_dy = temp_dy_3 * temp1_x;
+    double temp_dmiu1_dx = temp_y_2 * temp_dterm1_dx + temp_dterm2_dx;
+    double temp_dmiu1_dy = temp_dy_2 * temp_term1_x;
 
-    double temp_dmiu2_dx = temp_dx_3 * temp1_y;
-    double temp_dmiu2_dy = temp_x_3 * temp1_dy + temp2_dy;
+    double temp_dmiu2_dx = temp_dx_2 * temp_term1_y;
+    double temp_dmiu2_dy = temp_x_2 * temp_dterm1_dy + temp_dterm2_dy;
 
-    double temp_dmiu3_dx = temp_z_3 * temp1_dx + temp2_dx;
-    double temp_dmiu3_dz = temp_dz_3 * temp1_x;
+    double temp_dmiu3_dx = temp_z_2 * temp_dterm1_dx + temp_dterm2_dx;
+    double temp_dmiu3_dz = temp_dz_2 * temp_term1_x;
 
-    double temp_dmiu4_dx = temp_dx_3 * temp1_z;
-    double temp_dmiu4_dz = temp_x_3 * temp1_dz + temp2_dz;
+    double temp_dmiu4_dx = temp_dx_2 * temp_term1_z;
+    double temp_dmiu4_dz = temp_x_2 * temp_dterm1_dz + temp_dterm2_dz;
 
-    double temp_dmiu5_dy = temp_z_3 * temp1_dy + temp2_dy;
-    double temp_dmiu5_dz = temp_dz_3 * temp1_y;
+    double temp_dmiu5_dy = temp_z_2 * temp_dterm1_dy + temp_dterm2_dy;
+    double temp_dmiu5_dz = temp_dz_2 * temp_term1_y;
 
-    double temp_dmiu6_dy = temp_dy_3 * temp1_z;
-    double temp_dmiu6_dz = temp_y_3 * temp1_dz + temp2_dz;
+    double temp_dmiu6_dy = temp_dy_2 * temp_term1_z;
+    double temp_dmiu6_dz = temp_y_2 * temp_dterm1_dz + temp_dterm2_dz;
 
-    double miu_6_6_1 = temp * lambda_z0 * temp_miu1;
-    double miu_6_6_2 = temp * lambda_z0 * temp_miu2;
-    double miu_6_6_3 = temp * lambda_y0 * temp_miu3;
-    double miu_6_6_4 = temp * lambda_y0 * temp_miu4;
-    double miu_6_6_5 = temp * lambda_x0 * temp_miu5;
-    double miu_6_6_6 = temp * lambda_x0 * temp_miu6;
+    double miu_7_6_1 = temp * lambda_z0 * temp_miu1;
+    double miu_7_6_2 = temp * lambda_z0 * temp_miu2;
+    double miu_7_6_3 = temp * lambda_y0 * temp_miu3;
+    double miu_7_6_4 = temp * lambda_y0 * temp_miu4;
+    double miu_7_6_5 = temp * lambda_x0 * temp_miu5;
+    double miu_7_6_6 = temp * lambda_x0 * temp_miu6;
 
     //deriv consts
     double const_2_C2_x = 2.0 * C2 * x0; // 2 * C2 * x0
@@ -1906,6 +1906,93 @@ void calc_MCSH_6_6(double x0, double y0, double z0, double r0_sqr, double A, dou
     deriv[15] = dx0dx() * temp * temp_miu6 * lambda * const_1_p_2_C2_x2;
     deriv[16] = dy0dy() * temp * lambda_x0 * (temp_dmiu6_dy + const_2_C2_y * temp_miu6);
     deriv[17] = dz0dz() * temp * lambda_x0 * (temp_dmiu6_dz + const_2_C2_z * temp_miu6);
+
+    // double temp1_x = 10395.0 * temp_x_3 - 2835.0 * lambda_x0;
+    // double temp1_y = 10395.0 * temp_y_3 - 2835.0 * lambda_y0;
+    // double temp1_z = 10395.0 * temp_z_3 - 2835.0 * lambda_z0;
+
+    // double temp1_dx = 10395.0 * temp_dx_3 - 2835.0 * lambda;
+    // double temp1_dy = 10395.0 * temp_dy_3 - 2835.0 * lambda;
+    // double temp1_dz = 10395.0 * temp_dz_3 - 2835.0 * lambda;
+
+    // double temp2_x = -945.0 * temp_x_3 + 315.0 * lambda_x0;
+    // double temp2_y = -945.0 * temp_y_3 + 315.0 * lambda_y0;
+    // double temp2_z = -945.0 * temp_z_3 + 315.0 * lambda_z0;
+
+    // double temp2_dx = -945.0 * temp_dx_3 + 315.0 * lambda;
+    // double temp2_dy = -945.0 * temp_dy_3 + 315.0 * lambda;
+    // double temp2_dz = -945.0 * temp_dz_3 + 315.0 * lambda;
+
+    // double temp_miu1 = temp_y_3 * temp1_x + temp2_x;
+    // double temp_miu2 = temp_x_3 * temp1_y + temp2_y;
+    // double temp_miu3 = temp_z_3 * temp1_x + temp2_x;
+    // double temp_miu4 = temp_x_3 * temp1_z + temp2_z;
+    // double temp_miu5 = temp_z_3 * temp1_y + temp2_y;
+    // double temp_miu6 = temp_y_3 * temp1_z + temp2_z;
+
+    // double temp_dmiu1_dx = temp_y_3 * temp1_dx + temp2_dx;
+    // double temp_dmiu1_dy = temp_dy_3 * temp1_x;
+
+    // double temp_dmiu2_dx = temp_dx_3 * temp1_y;
+    // double temp_dmiu2_dy = temp_x_3 * temp1_dy + temp2_dy;
+
+    // double temp_dmiu3_dx = temp_z_3 * temp1_dx + temp2_dx;
+    // double temp_dmiu3_dz = temp_dz_3 * temp1_x;
+
+    // double temp_dmiu4_dx = temp_dx_3 * temp1_z;
+    // double temp_dmiu4_dz = temp_x_3 * temp1_dz + temp2_dz;
+
+    // double temp_dmiu5_dy = temp_z_3 * temp1_dy + temp2_dy;
+    // double temp_dmiu5_dz = temp_dz_3 * temp1_y;
+
+    // double temp_dmiu6_dy = temp_dy_3 * temp1_z;
+    // double temp_dmiu6_dz = temp_y_3 * temp1_dz + temp2_dz;
+
+    // double miu_6_6_1 = temp * lambda_z0 * temp_miu1;
+    // double miu_6_6_2 = temp * lambda_z0 * temp_miu2;
+    // double miu_6_6_3 = temp * lambda_y0 * temp_miu3;
+    // double miu_6_6_4 = temp * lambda_y0 * temp_miu4;
+    // double miu_6_6_5 = temp * lambda_x0 * temp_miu5;
+    // double miu_6_6_6 = temp * lambda_x0 * temp_miu6;
+
+    // //deriv consts
+    // double const_2_C2_x = 2.0 * C2 * x0; // 2 * C2 * x0
+    // double const_2_C2_y = 2.0 * C2 * y0;
+    // double const_2_C2_z = 2.0 * C2 * z0;
+
+    // double const_1_p_2_C2_x2 = 1.0 + 2.0 * C2 * x0_sqr; // 1 + 2*C2*x0*x0
+    // double const_1_p_2_C2_y2 = 1.0 + 2.0 * C2 * y0_sqr;
+    // double const_1_p_2_C2_z2 = 1.0 + 2.0 * C2 * z0_sqr;
+
+    // // dmiu1 dx/dy/dz
+    // deriv[0] = dx0dx() * temp * lambda_z0 * (temp_dmiu1_dx + const_2_C2_x * temp_miu1);
+    // deriv[1] = dy0dy() * temp * lambda_z0 * (temp_dmiu1_dy + const_2_C2_y * temp_miu1);
+    // deriv[2] = dz0dz() * temp * temp_miu1 * lambda * const_1_p_2_C2_z2;
+
+    // // dmiu2 dx/dy/dz
+    // deriv[3] = dx0dx() * temp * lambda_z0 * (temp_dmiu2_dx + const_2_C2_x * temp_miu2);
+    // deriv[4] = dy0dy() * temp * lambda_z0 * (temp_dmiu2_dy + const_2_C2_y * temp_miu2);
+    // deriv[5] = dz0dz() * temp * temp_miu2 * lambda * const_1_p_2_C2_z2;
+
+    // // dmiu3 dx/dy/dz
+    // deriv[6] = dx0dx() * temp * lambda_y0 * (temp_dmiu3_dx + const_2_C2_x * temp_miu3);
+    // deriv[7] = dy0dy() * temp * temp_miu3 * lambda * const_1_p_2_C2_y2;
+    // deriv[8] = dz0dz() * temp * lambda_y0 * (temp_dmiu3_dz + const_2_C2_z * temp_miu3);
+
+    // // dmiu4 dx/dy/dz
+    // deriv[9] = dx0dx() * temp * lambda_y0 * (temp_dmiu4_dx + const_2_C2_x * temp_miu4);
+    // deriv[10] = dy0dy() * temp * temp_miu4 * lambda * const_1_p_2_C2_y2;
+    // deriv[11] = dz0dz() * temp * lambda_y0 * (temp_dmiu4_dz + const_2_C2_z * temp_miu4);
+
+    // // dmiu5 dx/dy/dz
+    // deriv[12] = dx0dx() * temp * temp_miu5 * lambda * const_1_p_2_C2_x2;
+    // deriv[13] = dy0dy() * temp * lambda_x0 * (temp_dmiu5_dy + const_2_C2_y * temp_miu5);
+    // deriv[14] = dz0dz() * temp * lambda_x0 * (temp_dmiu5_dz + const_2_C2_z * temp_miu5);
+
+    // // dmiu6 dx/dy/dz
+    // deriv[15] = dx0dx() * temp * temp_miu6 * lambda * const_1_p_2_C2_x2;
+    // deriv[16] = dy0dy() * temp * lambda_x0 * (temp_dmiu6_dy + const_2_C2_y * temp_miu6);
+    // deriv[17] = dz0dz() * temp * lambda_x0 * (temp_dmiu6_dz + const_2_C2_z * temp_miu6);
 
     value[0] = miu_6_6_1;
     value[1] = miu_6_6_2;
@@ -1953,9 +2040,9 @@ void calc_MCSH_6_7(double x0, double y0, double z0, double r0_sqr, double A, dou
 
     double sum_ts = t1 + t2 + t3 + t4 + t5 + t6 + t7 + t8;
 
-    double sum_dtdx = (2.0 * lambda_sqr * x0) * (10395.0 * temp_y * temp_z - 945.0 * (temp_y + temp_z) + 105.0);
-    double sum_dtdy = (2.0 * lambda_sqr * y0) * (10395.0 * temp_x * temp_z - 945.0 * (temp_x + temp_z) + 105.0);
-    double sum_dtdz = (2.0 * lambda_sqr * z0) * (10395.0 * temp_x * temp_y - 945.0 * (temp_x + temp_y) + 105.0);
+    double sum_dtdx = temp_dx * (10395.0 * temp_y * temp_z - 945.0 * (temp_y + temp_z) + 105.0);
+    double sum_dtdy = temp_dy * (10395.0 * temp_x * temp_z - 945.0 * (temp_x + temp_z) + 105.0);
+    double sum_dtdz = temp_dz * (10395.0 * temp_x * temp_y - 945.0 * (temp_x + temp_y) + 105.0);
 
     double temp =  C1 * exp( C2 * r0_sqr);
     double m_6_7 = temp * sum_ts;
@@ -1974,7 +2061,7 @@ void calc_MCSH_7_1(double x0, double y0, double z0, double r0_sqr, double A, dou
     double C2 = calc_C2(alpha, beta);
     
     double lambda = calc_lambda(alpha, beta);
-    double lambda_sqr = lambda * lambda;
+    // double lambda_sqr = lambda * lambda;
 
 
     double lambda_x0 = lambda * x0;
@@ -2407,7 +2494,7 @@ void calc_MCSH_7_5(double x0, double y0, double z0, double r0_sqr, double A, dou
     double C2 = calc_C2(alpha, beta);
     
     double lambda = calc_lambda(alpha, beta);
-    // double lambda_sqr = lambda * lambda;
+    double lambda_sqr = lambda * lambda;
 
     double lambda_x0 = x0 * lambda;
     double lambda_y0 = y0 * lambda;
@@ -3427,7 +3514,7 @@ void calc_MCSH_8_5(double x0, double y0, double z0, double r0_sqr, double A, dou
     double C2 = calc_C2(alpha, beta);
     
     double lambda = calc_lambda(alpha, beta);
-    double lambda_sqr = lambda * lambda;
+    // double lambda_sqr = lambda * lambda;
 
     double lambda_x0 = x0 * lambda;
     double lambda_y0 = y0 * lambda;
@@ -5673,22 +5760,22 @@ void calc_MCSH_9_10(double x0, double y0, double z0, double r0_sqr, double A, do
 
     
     double temp_term1_x = 34459425.0 * temp_x_4 - 12162150.0 * temp_x_2 + 405405.0;
-    double temp_term1_y = 34459425.0 * temp_y_4 - 12162150.0 * temp_x_2 + 405405.0;
+    double temp_term1_y = 34459425.0 * temp_y_4 - 12162150.0 * temp_y_2 + 405405.0;
 
-    double temp_dterm1_dx = 34459425.0 * temp_dx_4 - 12162150.0 * temp_x_2;
-    double temp_dterm1_dy = 34459425.0 * temp_dy_4 - 12162150.0 * temp_x_2;
+    double temp_dterm1_dx = 34459425.0 * temp_dx_4 - 12162150.0 * temp_dx_2;
+    double temp_dterm1_dy = 34459425.0 * temp_dy_4 - 12162150.0 * temp_dy_2;
 
     double temp_term2_x = -12162150.0 * temp_x_4 + 4864860.0 * temp_x_2 - 187110.0;
-    double temp_term2_y = -12162150.0 * temp_y_4 + 4864860.0 * temp_x_2 - 187110.0;
+    double temp_term2_y = -12162150.0 * temp_y_4 + 4864860.0 * temp_y_2 - 187110.0;
 
-    double temp_dterm2_dx = -12162150.0 * temp_dx_4 + 4864860.0 * temp_x_2;
-    double temp_dterm2_dy = -12162150.0 * temp_dy_4 + 4864860.0 * temp_x_2;
+    double temp_dterm2_dx = -12162150.0 * temp_dx_4 + 4864860.0 * temp_dx_2;
+    double temp_dterm2_dy = -12162150.0 * temp_dy_4 + 4864860.0 * temp_dy_2;
 
     double temp_term3_x = 405405.0 * temp_x_4 - 187110.0 * temp_x_2 + 8505.0;
-    double temp_term3_y = 405405.0 * temp_y_4 - 187110.0 * temp_x_2 + 8505.0;
+    double temp_term3_y = 405405.0 * temp_y_4 - 187110.0 * temp_y_2 + 8505.0;
 
-    double temp_dterm3_dx = 405405.0 * temp_dx_4 - 187110.0 * temp_x_2;
-    double temp_dterm3_dy = 405405.0 * temp_dy_4 - 187110.0 * temp_x_2;
+    double temp_dterm3_dx = 405405.0 * temp_dx_4 - 187110.0 * temp_dx_2;
+    double temp_dterm3_dy = 405405.0 * temp_dy_4 - 187110.0 * temp_dy_2;
 
 
     double temp_miu1 = temp_y_4 * temp_term1_x + temp_y_2 * temp_term2_x + temp_term3_x;
