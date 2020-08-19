@@ -100,7 +100,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         self.params_set['num'] = len(self.params_set['total'])
 
         if "prime_threshold" in self.MCSHs:
-            self.params_set["prime_threshold"] = self.MCSHs["prime_threshold"]
+            self.params_set["prime_threshold"] = float(self.MCSHs["prime_threshold"])
 
         return
     
