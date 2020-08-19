@@ -195,7 +195,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         # print(fp)
         # print(fp.shape)
-        for datapoint in scipy_sparse_fp_prime.data:
+        for datapoint in np.sort(np.abs(scipy_sparse_fp_prime.data))[:100]:
             print(datapoint)
         print(np.min(np.abs(scipy_sparse_fp_prime.data)))
         print("density: {}% \n\n----------------------".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
