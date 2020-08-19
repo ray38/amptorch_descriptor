@@ -205,9 +205,9 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         cal_num = len(cal_atoms)
         cal_atoms_p = ffi.cast("int *", cal_atoms.ctypes.data)
 
-        # print(self.params_set['gaussian_params'])
-        # print(self.params_set['ngaussians'])
-        # print(self.params_set['element_index_to_order'])
+        print(self.params_set['gaussian_params'])
+        print(self.params_set['ngaussians'])
+        print(self.params_set['element_index_to_order'])
         # print(atom_indices)
 
         size_info = np.array([atom_num, cal_num, self.params_set['num']])

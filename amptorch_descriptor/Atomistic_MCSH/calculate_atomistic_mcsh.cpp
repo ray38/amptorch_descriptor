@@ -166,14 +166,14 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
                         //     continue;
 
                         // take care of pbc
-                        // if (!pbc_bools[0] && cell_shift[0] != 0)
-                        //     continue;
+                        if (!pbc_bools[0] && cell_shift[0] != 0)
+                            continue;
                         
-                        // if (!pbc_bools[1] && cell_shift[1] != 0)
-                        //     continue;
+                        if (!pbc_bools[1] && cell_shift[1] != 0)
+                            continue;
 
-                        // if (!pbc_bools[2] && cell_shift[2] != 0)
-                        //     continue;
+                        if (!pbc_bools[2] && cell_shift[2] != 0)
+                            continue;
 
                         for (int a=0; a < 3; ++a) {
                             total_shift[a] = cell_shift[0]*cell[0][a] + cell_shift[1]*cell[1][a] + cell_shift[2]*cell[2][a]

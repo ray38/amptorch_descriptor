@@ -2,10 +2,6 @@ import cffi
 
 ffibuilder = cffi.FFI()
 ffibuilder.cdef(
-    # """int calculate_sf(double **, double **, double **,
-    #                                 int *, int, int*, int,
-    #                                 int**, double **, int,
-    #                                 double**, double**, double**);"""
     """int calculate_atomistic_mcsh(double **, double **, double **, int*,
                                     int *, int, int*, int,
                                     int**, double **, int, double **, int*, int*, 
