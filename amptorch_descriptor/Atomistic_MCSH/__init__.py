@@ -189,14 +189,16 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
 
         fp_prime = np.array(dx)
 
-        # super_threshold_indices = np.abs(fp_prime) < 1e-10
-        # fp_prime[super_threshold_indices] = 0.0
+        super_threshold_indices = np.abs(fp_prime) < 1e-10
+        print(np.sum(super_threshold_indices))
+        fp_prime[super_threshold_indices] = 0.0
 
         scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
         # print(fp)
         # print(fp.shape)
         for datapoint in np.sort(np.abs(scipy_sparse_fp_prime.data))[:100]:
             print(datapoint)
+        print(np.sum(super_threshold_indices))
         print(np.min(np.abs(scipy_sparse_fp_prime.data)))
         print("density: {}% \n\n----------------------".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
 
