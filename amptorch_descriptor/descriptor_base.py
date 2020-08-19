@@ -55,12 +55,12 @@ class AMPTorchDescriptorBase(ABC):
             traj_db_filename = "{}/AmpFP-{}-{}-{}.h5".format(self.desc_fp_database_dir, self.descriptor_type, self.descriptor_setup_hash,traj_hash)
 
             # if save, then read/write from db as needed
-            if save :
+            if save:
                 temp_descriptor_list = \
                     self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=True)
             
             # if not save, but db exist, read from db if possible
-            else if os.path.exists(self.desc_type_database_dir):
+            elif os.path.exists(self.desc_type_database_dir):
                 temp_descriptor_list = \
                     self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=False)
 
@@ -134,7 +134,7 @@ class AMPTorchDescriptorBase(ABC):
                             image_dict[element]["size_info"] = size_info
 
                             image_dict[element]["descriptors"] = fps
-                            
+
                             image_dict[element]["descriptor_primes"] = {}
                             image_dict[element]["descriptor_primes"]["value"] = fp_primes_val
                             image_dict[element]["descriptor_primes"]["row"]   = fp_primes_row
