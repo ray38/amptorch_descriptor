@@ -146,7 +146,8 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
                             atom_indices_p, atom_num, cal_atoms_p, cal_num, \
                             self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
                             x_p, dx_p)
-                    
+            if errno == 1:
+                print("ERROR: descriptor not IMPLEMENTED!!")
             fp = np.array(x)
             fp_prime = np.array(dx)
             scipy_sparse_fp_prime = sparse.coo_matrix(fp_prime)
@@ -162,7 +163,9 @@ class BPSymmetryFunction(AMPTorchDescriptorBase):
                             atom_indices_p, atom_num, cal_atoms_p, cal_num, \
                             self.params_set[element_index]['ip'], self.params_set[element_index]['dp'], self.params_set[element_index]['num'], \
                             x_p)
-                    
+            
+            if errno == 1:
+                print("ERROR: descriptor not IMPLEMENTED!!")
             fp = np.array(x)
 
             return size_info, fp, None, None, None, None
