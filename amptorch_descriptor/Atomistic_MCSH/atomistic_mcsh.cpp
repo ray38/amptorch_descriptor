@@ -3773,27 +3773,27 @@ void calc_MCSH_8_7(double x0, double y0, double z0, double r0_sqr, double A, dou
 
     double temp_term1_x = 2027025.0 * temp_x_4 - 810810.0 * temp_x_2 + 31185.0;
     double temp_term1_y = 2027025.0 * temp_y_4 - 810810.0 * temp_y_2 + 31185.0;
-    double temp_term1_z = 2027025.0 * temp_z_4 - 810810.0 * temp_z_2 + 31185.0;
+    // double temp_term1_z = 2027025.0 * temp_z_4 - 810810.0 * temp_z_2 + 31185.0;
 
     double temp_dterm1_dx = 2027025.0 * temp_dx_4 - 810810.0 * temp_dx_2;
     double temp_dterm1_dy = 2027025.0 * temp_dy_4 - 810810.0 * temp_dy_2;
-    double temp_dterm1_dz = 2027025.0 * temp_dz_4 - 810810.0 * temp_dz_2;
+    // double temp_dterm1_dz = 2027025.0 * temp_dz_4 - 810810.0 * temp_dz_2;
 
     double temp_term2_x = -810810.0 * temp_x_4 + 374220.0 * temp_x_2 - 17010.0;
     double temp_term2_y = -810810.0 * temp_y_4 + 374220.0 * temp_y_2 - 17010.0;
-    double temp_term2_z = -810810.0 * temp_z_4 + 374220.0 * temp_z_2 - 17010.0;
+    // double temp_term2_z = -810810.0 * temp_z_4 + 374220.0 * temp_z_2 - 17010.0;
 
     double temp_dterm2_dx = -810810.0 * temp_dx_4 + 374220.0 * temp_dx_2;
     double temp_dterm2_dy = -810810.0 * temp_dy_4 + 374220.0 * temp_dy_2;
-    double temp_dterm2_dz = -810810.0 * temp_dz_4 + 374220.0 * temp_dz_2;
+    // double temp_dterm2_dz = -810810.0 * temp_dz_4 + 374220.0 * temp_dz_2;
 
     double temp_term3_x = 31185.0 * temp_x_4 - 17010.0 * temp_x_2 + 945.0;
     double temp_term3_y = 31185.0 * temp_y_4 - 17010.0 * temp_y_2 + 945.0;
-    double temp_term3_z = 31185.0 * temp_z_4 - 17010.0 * temp_z_2 + 945.0;
+    // double temp_term3_z = 31185.0 * temp_z_4 - 17010.0 * temp_z_2 + 945.0;
 
     double temp_dterm3_dx = 31185.0 * temp_dx_4 - 17010.0 * temp_dx_2;
     double temp_dterm3_dy = 31185.0 * temp_dy_4 - 17010.0 * temp_dy_2;
-    double temp_dterm3_dz = 31185.0 * temp_dz_4 - 17010.0 * temp_dz_2;
+    // double temp_dterm3_dz = 31185.0 * temp_dz_4 - 17010.0 * temp_dz_2;
 
     double temp_miu1 = temp_y_4 * temp_term1_x + temp_y_2 * temp_term2_x + temp_term3_x;
     double temp_miu2 = temp_z_4 * temp_term1_x + temp_z_2 * temp_term2_x + temp_term3_x;
@@ -4194,10 +4194,6 @@ void calc_MCSH_8_10(double x0, double y0, double z0, double r0_sqr, double A, do
     double lambda_x0_3 = lambda_x0_sqr * lambda_x0;
     double lambda_y0_3 = lambda_y0_sqr * lambda_y0;
     double lambda_z0_3 = lambda_z0_sqr * lambda_z0;
-
-    double lambda_x0_4 = lambda_x0_3 * lambda_x0;
-    double lambda_y0_4 = lambda_y0_3 * lambda_y0;
-    double lambda_z0_4 = lambda_z0_3 * lambda_z0;
 
     double gamma = calc_gamma(alpha, beta);
 
@@ -5700,13 +5696,13 @@ void calc_MCSH_9_10(double x0, double y0, double z0, double r0_sqr, double A, do
     double temp_miu3 = temp_z_4 * temp_term1_y + temp_z_2 * temp_term2_y + temp_term3_y;
 
     double temp_dmiu1_dx = temp_y_4 * temp_dterm1_dx + temp_y_2 * temp_dterm2_dx + temp_dterm3_dx;
-    double temp_dmiu1_dy = temp_dy_4 * temp_term1_x + lambda * temp_term2_x;
+    double temp_dmiu1_dy = temp_dy_4 * temp_term1_x + temp_dy_2 * temp_term2_x;
 
     double temp_dmiu2_dx = temp_z_4 * temp_dterm1_dx + temp_z_2 * temp_dterm2_dx + temp_dterm3_dx;
-    double temp_dmiu2_dz = temp_dz_4 * temp_term1_x + lambda * temp_term2_x;
+    double temp_dmiu2_dz = temp_dz_4 * temp_term1_x + temp_dz_2 * temp_term2_x;
 
     double temp_dmiu3_dy = temp_z_4 * temp_dterm1_dy + temp_z_2 * temp_dterm2_dy + temp_dterm3_dy;
-    double temp_dmiu3_dz = temp_dz_4 * temp_term1_y + lambda * temp_term2_y;
+    double temp_dmiu3_dz = temp_dz_4 * temp_term1_y + temp_dz_2 * temp_term2_y;
 
 
     double miu_9_10_1 = temp * lambda_z0 * temp_miu1;
@@ -5919,7 +5915,7 @@ void calc_MCSH_9_11(double x0, double y0, double z0, double r0_sqr, double A, do
 
     // dmiu3 dx/dy/dz
     deriv[6] = dx0dx() * temp * (temp_dmiu3_dx + const_2_C2_x * temp_miu3);
-    deriv[7] = dy0dy() * temp * (temp_dmiu3_dy + const_2_C2_y) * temp_miu3);
+    deriv[7] = dy0dy() * temp * (temp_dmiu3_dy + const_2_C2_y * temp_miu3);
     deriv[8] = dz0dz() * temp * (temp_dmiu3_dz + const_2_C2_z * temp_miu3);
 
     // dmiu4 dx/dy/dz
@@ -5997,7 +5993,7 @@ void calc_MCSH_9_12(double x0, double y0, double z0, double r0_sqr, double A, do
     double sum_dtdz = temp_dz_3 * (34459425.0 * temp_x_3 * temp_y_3 - 6081075.0 * temp_x_3 * lambda_y0 - 6081075 * lambda_x0 * temp_y_3 + 1216215.0 * lambda_x0 * lambda_y0)
                        + lambda * (-6081075.0 * temp_x_3 * temp_y_3 + 1216215.0 * temp_x_3 * lambda_y0 + 1216215 * lambda_x0 * temp_y_3 - 280665.0 * lambda_x0 * lambda_y0);
 
-    double temp =  C1 * exp( C2 * r0_sqr);
+
     double m_9_12 = temp * sum_ts;
 
     deriv[0] = dx0dx() * temp * (2.0 * C2 * x0 * sum_ts + sum_dtdx);
