@@ -191,7 +191,7 @@ class DescriptorCalculator:
                     transformed_array[index_new] += components[j, k] * original_array[index_old]
 
         scipy_sparse_transformed = coo_matrix(transformed_array)
-        print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
+        # print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
         transformed_result = {}
         transformed_result["value"] = scipy_sparse_transformed.data
         transformed_result["row"]   = scipy_sparse_transformed.row
