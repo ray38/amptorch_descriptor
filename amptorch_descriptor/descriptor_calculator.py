@@ -2,8 +2,9 @@
 from .descriptor_base import AMPTorchDescriptorBase
 from ase import Atoms
 import pickle
-from scipy.sparse import coo_matrix
+from scipy.sparse import coo_matrix, vstack
 import numpy as np
+import os
 
 class DescriptorCalculator:
     def __init__(
@@ -12,6 +13,7 @@ class DescriptorCalculator:
         descriptor,
         automatic_calculation = True,
         calculate_descriptor_primes = True,
+        sparse_prime = True,
         store_descriptors = True,
         training_data = False,
         parallel = False,
@@ -21,6 +23,7 @@ class DescriptorCalculator:
         self.trajs = trajs
         self.descriptor = descriptor
         self.calculate_descriptor_primes = calculate_descriptor_primes
+        self.sparse_prime = sparse_prime
         self.training_data = training_data
         # self.calculate_fingerprints = calculate_fingerprints
         self.store_descriptors = store_descriptors
@@ -40,7 +43,9 @@ class DescriptorCalculator:
 
     def prepare_descriptors(self):
         self.calculated_decsriptor_list = \
-            self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, calculate_derivatives=self.calculate_descriptor_primes, save=self.store_descriptors)
+            self.descriptor.prepare_fingerprints(self.trajs, parallel=None, log=None, \
+                                                 calculate_derivatives=self.calculate_descriptor_primes, save=self.store_descriptors,\
+                                                 get_training_data = self.training_data)
 
         self.descriptors_ready = True
 
@@ -69,10 +74,47 @@ class DescriptorCalculator:
                 for element in self.element_list:
                     temp = calculated_decsriptor[element]["descriptors"].copy()
                     descriptors = np.vstack([descriptors, temp]) if descriptors.size else temp
+                    descriptors.append(temp)
                 result.append(descriptors)
             return result
 
-    def get_descriptor_primes(self):
+    def get_descriptor_primes(self, separate_atomtypes = True):
+        if self.descriptors_ready == False or self.calculate_descriptor_primes == False:
+            print("ERROR, descriptors primes not calculated yet, please set calculate_descriptor_primes to true and call prepare_descriptors() function")
+            return None
+        
+        if separate_atomtypes:
+            result = {}
+            for element in self.element_list:
+                # result[element] = []
+                element_descriptor_prime_list = []
+                
+                for calculated_decsriptor in self.calculated_decsriptor_list:
+                    fp_primes_val  = calculated_decsriptor[element]["descriptor_primes"]["value"].copy()
+                    fp_primes_row  = calculated_decsriptor[element]["descriptor_primes"]["row"].copy()
+                    fp_primes_col  = calculated_decsriptor[element]["descriptor_primes"]["col"].copy()
+                    fp_primes_size = calculated_decsriptor[element]["descriptor_primes"]["size"].copy()
+                    temp = coo_matrix((fp_primes_val, (fp_primes_row, fp_primes_col)), shape=fp_primes_size)
+                    element_descriptor_prime_list.append(temp)
+                    # element_descriptor_array = np.vstack([element_descriptor_array, temp]) if element_descriptor_array.size else temp
+                result[element] = element_descriptor_prime_list
+            return result
+        
+        else: 
+            print("WARNING: atomtype separation turned off, please make sure the dimensions match and you know what you are doing")
+            result = []
+            for calculated_decsriptor in self.calculated_decsriptor_list:
+                descriptor_primes = []
+                for element in self.element_list:
+                    fp_primes_val  = calculated_decsriptor[element]["descriptor_primes"]["value"].copy()
+                    fp_primes_row  = calculated_decsriptor[element]["descriptor_primes"]["row"].copy()
+                    fp_primes_col  = calculated_decsriptor[element]["descriptor_primes"]["col"].copy()
+                    fp_primes_size = calculated_decsriptor[element]["descriptor_primes"]["size"].copy()
+                    temp = coo_matrix((fp_primes_val, (fp_primes_row, fp_primes_col)), shape=fp_primes_size)
+                    descriptor_primes.append(temp)
+                descriptor_primes = vstack(descriptor_primes)
+                result.append(descriptor_primes)
+            return result
         pass
 
 

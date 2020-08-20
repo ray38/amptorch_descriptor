@@ -18,28 +18,43 @@ Gs = {"G2": {"etas": np.logspace(np.log10(0.05), np.log10(5.0), num=4), "rs_s": 
       "cutoff": 6.5}
 
 MCSHs = {   "MCSHs": {   
-                        "0": {"groups": [1], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "1": {"groups": [1], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "2": {"groups": [1,2], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "3": {"groups": [1,2,3], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "5": {"groups": [1,2,3,4,5], "sigmas": [0.1, 0.2, 0.3, 0.4]},
-                        "6": {"groups": [1,2,3,4,5,6,7], "sigmas": [0.1, 0.2, 0.3, 0.4]}
+                        "0": {"groups": [1], "sigmas": [0.01]},
+                        #"1": {"groups": [1], "sigmas": [0.1, 0.2, 0.3]},
+                        #"2": {"groups": [1,2], "sigmas": [0.1, 0.2, 0.3]},
+                        #"3": {"groups": [1,2,3], "sigmas": [0.1, 0.2, 0.3]},
+                        #"4": {"groups": [1,2,3,4], "sigmas": [0.1, 0.2, 0.3]},
+                        #"5": {"groups": [1,2,3,4,5], "sigmas": [0.1, 0.2, 0.3]},
+                        #"6": {"groups": [1,2,3,4,5,6,7], "sigmas": [0.1, 0.2, 0.3]},
+                        #"7": {"groups": [1,2,3,4,5,6,7,8], "sigmas": [0.1, 0.2, 0.3]},
+                        #"8": {"groups": [1,2,3,4,5,6,7,8,9,10], "sigmas": [0.1, 0.2, 0.3]},
+                        #"9": {"groups": [1,2,3,4,5,6,7,8,9,10,11,12], "sigmas": [0.1, 0.2, 0.3]}
                   },
             "atom_gaussians": {
                         "H": "./MCSH_potential/H_pseudodensity_6.g",
                         "O": "./MCSH_potential/O_pseudodensity_6.g",
                         "Fe": "./MCSH_potential/Pt_pseudodensity_8.g"
                   },
-            "cutoff": 6.5}
+            "cutoff": 3.5,
+            "prime_threshold": 1e-6
+}
 
 # small = read('./small/water.extxyz', index=':')
 # trajectories = [small]
 
+print(large[0].cell)
+descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
 
-# descriptor = BPSymmetryFunction(Gs = Gs, elements = elements)
-
-descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
+#descriptor = AtomisticMCSH(MCSHs = MCSHs, elements = elements)
 descriptor_calculator = DescriptorCalculator(trajectories, descriptor)
 
+temp_desc = descriptor_calculator.get_descriptors()
+# temp_desc_prime = descriptor_calculator.get_descriptor_primes()
+print(temp_desc["H"][0].shape)
+# print(temp_desc_prime["H"][0].shape)
+
 descriptor_calculator.calculate_PCA(n_components = 10)
+
+temp_desc = descriptor_calculator.get_descriptors()
+# temp_desc_prime = descriptor_calculator.get_descriptor_primes()
+print(temp_desc["H"][0].shape)
+# print(temp_desc_prime["H"][0].shape)
