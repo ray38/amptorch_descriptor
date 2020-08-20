@@ -58,7 +58,7 @@ class DescriptorCalculator:
                     temp = calculated_decsriptor[element]["descriptors"].copy()
                     element_descriptor_list.append(temp)
                     # element_descriptor_array = np.vstack([element_descriptor_array, temp]) if element_descriptor_array.size else temp
-                result[element] = element_descriptor_array
+                result[element] = element_descriptor_list
             return result
         
         else: 
