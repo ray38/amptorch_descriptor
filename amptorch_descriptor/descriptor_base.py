@@ -57,17 +57,17 @@ class AMPTorchDescriptorBase(ABC):
             # if save, then read/write from db as needed
             if save:
                 temp_descriptor_list = \
-                    self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=True)
+                    self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=True, get_training_data = get_training_data)
             
             # if not save, but db exist, read from db if possible
             elif os.path.exists(self.desc_type_database_dir):
                 temp_descriptor_list = \
-                    self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=False)
+                    self._prepare_fingerprints_single_traj(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, save=False, get_training_data = get_training_data)
 
             # if not save, and db not exist, calculat fps on the fly
             else:
                 temp_descriptor_list = \
-                    self._prepare_fingerprints_single_traj_nodb(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives)
+                    self._prepare_fingerprints_single_traj_nodb(traj, traj_db_filename, parallel=parallel, log=log, calculate_derivatives=calculate_derivatives, get_training_data = get_training_data)
             
             trajs_descriptor_list += temp_descriptor_list
 
@@ -76,7 +76,7 @@ class AMPTorchDescriptorBase(ABC):
         return trajs_descriptor_list
 
 
-    def _prepare_fingerprints_single_traj(self, traj, traj_db_filename, parallel=False, log=None, calculate_derivatives=True, save=True):
+    def _prepare_fingerprints_single_traj(self, traj, traj_db_filename, parallel=False, log=None, calculate_derivatives=True, save=True, get_training_data = False):
         descriptor_list = []
         # fingerprint_prime_list = []
 
@@ -86,6 +86,8 @@ class AMPTorchDescriptorBase(ABC):
             for i, snapshot in enumerate(traj):
                 start_time = time.time()
                 image_dict = {}
+                if get_training_data:
+                    image_dict["energy"] = snapshot.get_potential_energy()
 
                 try:
                     current_snapshot_grp = db[str(i)]
@@ -97,6 +99,8 @@ class AMPTorchDescriptorBase(ABC):
                         # image_dict["descriptors"][element] = {}
                         # image_dict["descriptor_primes"][element] = {}
                         image_dict[element] = {}
+                        if get_training_data:
+                            image_dict[element]["forces"] = self._get_force_in_element_order(snapshot, element)
                         
                         try:
                             current_element_grp = current_snapshot_grp[element]
@@ -169,17 +173,21 @@ class AMPTorchDescriptorBase(ABC):
         
         return descriptor_list
     
-    def _prepare_fingerprints_single_traj_nodb(self, traj, traj_db_filename, parallel=False, log=None, calculate_derivatives=True):
+    def _prepare_fingerprints_single_traj_nodb(self, traj, traj_db_filename, parallel=False, log=None, calculate_derivatives=True, get_training_data = False):
         descriptor_list = []
 
         Total_Num_Snapshots = len(traj)
         for i, snapshot in enumerate(traj):
             start_time = time.time()
             image_dict = {}
+            if get_training_data:
+                image_dict["energy"] = snapshot.get_potential_energy()
             
             for element in self.elements:
                 if element in snapshot.get_chemical_symbols():
                     image_dict[element] = {}
+                    if get_training_data:
+                        image_dict[element]["forces"] = self._get_force_in_element_order(snapshot, element)
 
                     if calculate_derivatives:
                         size_info, fps, fp_primes_val, fp_primes_row, fp_primes_col, fp_primes_size = \
@@ -219,6 +227,13 @@ class AMPTorchDescriptorBase(ABC):
             print("finished snapshot {}/{}, took time: {}".format(i+1, Total_Num_Snapshots, took_time))
 
         return descriptor_list
+
+    def _get_force_in_element_order(self, image, element):
+        sym_arr = np.array(image.get_chemical_symbols())
+        index = sym_arr == element
+        # energy = image.get_potential_energy()
+        forces = image.get_forces()
+        return forces[index]
 
     def _setup_fingerprint_database(self, create_nonexist = True):
         self.get_descriptor_setup_hash()

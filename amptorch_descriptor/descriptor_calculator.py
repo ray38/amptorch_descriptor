@@ -16,29 +16,25 @@ class DescriptorCalculator:
         sparse_prime = True,
         store_descriptors = True,
         training_data = False,
+        result_dir = "./_results_/",
         parallel = False,
         cores = 1,
     ):
-        # self.images = images
+        assert isinstance(descriptor, AMPTorchDescriptorBase)
+
         self.trajs = trajs
         self.descriptor = descriptor
+        self.automatic_calculation = automatic_calculation
         self.calculate_descriptor_primes = calculate_descriptor_primes
         self.sparse_prime = sparse_prime
-        self.training_data = training_data
-        # self.calculate_fingerprints = calculate_fingerprints
         self.store_descriptors = store_descriptors
+        self.training_data = training_data
+        self.result_dir = result_dir
 
         self.element_list = self.descriptor._get_element_list()
-
-        self.result_dir = "./_results_/"
-
         self.descriptors_ready = False
-        # self.fingerprint_primes_ready = False
         
-        assert isinstance(descriptor, AMPTorchDescriptorBase)
-        # assert isinstance(images, Atoms)
-
-        if automatic_calculation:
+        if self.automatic_calculation:
             self.prepare_descriptors()
 
     def prepare_descriptors(self):
@@ -116,7 +112,9 @@ class DescriptorCalculator:
                 result.append(descriptor_primes)
             return result
         pass
-
+    
+    def _get_calculated_descriptors(self):
+        return self.calculated_decsriptor_list
 
     def calculate_PCA(self, separate_atomtypes = True, save_models = True, n_components = 10, apply_PCA = True):
         from sklearn.decomposition import PCA

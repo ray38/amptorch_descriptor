@@ -3,61 +3,6 @@ import numpy as np
 from ase.io.trajectory import Trajectory
 from .constants import ATOM_INDEX_TO_SYMBOL_DICT, ATOM_SYMBOL_TO_INDEX_DICT
 
-# class Cosine_cutoff(object):
-#     """Cosine functional form suggested by Behler.
-
-#     Parameters
-#     ---------
-#     Rc : float
-#         Radius above which neighbor interactions are ignored.
-#     """
-
-#     def __init__(self, Rc):
-
-#         self.Rc = Rc
-
-#     def __call__(self, Rij):
-#         """
-#         Parameters
-#         ----------
-#         Rij : float
-#             Distance between pair atoms.
-
-#         Returns
-#         -------
-#         float
-#             The value of the cutoff function.
-#         """
-#         if Rij > self.Rc:
-#             return 0.
-#         else:
-#             return 0.5 * (np.cos(np.pi * Rij / self.Rc) + 1.)
-
-#     def prime(self, Rij):
-#         """Derivative (dfc_dRij) of the Cosine cutoff function with respect to Rij.
-
-#         Parameters
-#         ----------
-#         Rij : float
-#             Distance between pair atoms.
-
-#         Returns
-#         -------
-#         float
-#             The value of derivative of the cutoff function.
-#         """
-#         if Rij > self.Rc:
-#             return 0.
-#         else:
-#             return -0.5 * np.pi / self.Rc * np.sin(np.pi * Rij / self.Rc)
-
-#     def todict(self):
-#         return {'name': 'Cosine',
-#                 'kwargs': {'Rc': self.Rc}}
-
-#     def __repr__(self):
-#         return ('<Cosine cutoff with Rc=%.3f from amp.descriptor.cutoffs>'
-#                 % self.Rc)
 
 def _gen_2Darray_for_ffi(arr, ffi, cdata="double"):
     # Function to generate 2D pointer for cffi  
