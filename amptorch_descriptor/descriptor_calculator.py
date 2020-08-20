@@ -133,8 +133,8 @@ class DescriptorCalculator:
 
                 models[element] = pca_model
             if save_models:
-                if not os.path.exists(self.desc_fp_database_dir):
-                    os.makedirs(self.desc_fp_database_dir)
+                if not os.path.exists(self.result_dir):
+                    os.makedirs(self.result_dir)
                 pickle.dump( models, open( self.result_dir + "pca_models.p", "wb" ) )
 
             if apply_PCA:
@@ -145,11 +145,14 @@ class DescriptorCalculator:
 
     def apply_PCA(self, pca_model, separate_atomtypes = True):
         from sklearn.decomposition import PCA
+        print("start applying PCA")
+        # count = 0
 
         if separate_atomtypes:
             for element in self.element_list:
                 model = pca_model[element]
                 for calculated_decsriptor in calculated_decsriptor_list:
+                    print("start image")
                     size_info = calculated_decsriptor[element]["size_info"]
                     calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
                     if calculate_descriptor_primes:
