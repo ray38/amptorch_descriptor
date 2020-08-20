@@ -144,6 +144,10 @@ class DescriptorCalculator:
             print("WARNING: NOT implemented")
 
     def apply_PCA(self, pca_model, separate_atomtypes = True):
+        if self.descriptors_ready == False:
+            print("ERROR, descriptors not calculated yet, please call prepare_descriptors() function first")
+            return 
+
         from sklearn.decomposition import PCA
         print("start applying PCA")
         # count = 0
@@ -155,7 +159,7 @@ class DescriptorCalculator:
                     print("start image")
                     size_info = calculated_decsriptor[element]["size_info"]
                     calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
-                    if calculate_descriptor_primes:
+                    if self.calculate_descriptor_primes:
                         calculated_decsriptor[element]["descriptor_primes"] = \
                             self._apply_pca_model_to_descriptor_primes(calculated_decsriptor[element]["descriptor_primes"], size_info[0], size_info[1], size_info[2], model)
                     new_size_info = np.array([size_info[0], size_info[1], model.n_components_])
