@@ -54,7 +54,7 @@ class DescriptorCalculator:
             for element in self.element_list:
                 # result[element] = []
                 element_descriptor_list = []
-                for calculated_decsriptor in calculated_decsriptor_list:
+                for calculated_decsriptor in self.calculated_decsriptor_list:
                     temp = calculated_decsriptor[element]["descriptors"].copy()
                     element_descriptor_list.append(temp)
                     # element_descriptor_array = np.vstack([element_descriptor_array, temp]) if element_descriptor_array.size else temp
@@ -64,7 +64,7 @@ class DescriptorCalculator:
         else: 
             print("WARNING: atomtype separation turned off, please make sure the dimensions match and you know what you are doing")
             result = []
-            for calculated_decsriptor in calculated_decsriptor_list:
+            for calculated_decsriptor in self.calculated_decsriptor_list:
                 descriptors = np.array([])
                 for element in self.element_list:
                     temp = calculated_decsriptor[element]["descriptors"].copy()
