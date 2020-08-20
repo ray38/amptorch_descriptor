@@ -151,7 +151,7 @@ class DescriptorCalculator:
         if separate_atomtypes:
             for element in self.element_list:
                 model = pca_model[element]
-                for calculated_decsriptor in calculated_decsriptor_list:
+                for calculated_decsriptor in self.calculated_decsriptor_list:
                     print("start image")
                     size_info = calculated_decsriptor[element]["size_info"]
                     calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
