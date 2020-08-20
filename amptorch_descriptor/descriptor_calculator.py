@@ -86,7 +86,7 @@ class DescriptorCalculator:
                 data = np.vstack(raw_data[element])
                 pca_model = PCA(n_components=n_components)
                 pca_model.fit(data)
-                print(pca.explained_variance_ratio_)
+                print(pca_model.explained_variance_ratio_)
 
                 models[element] = pca_model
             if save:
