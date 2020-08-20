@@ -150,13 +150,15 @@ class DescriptorCalculator:
 
         from sklearn.decomposition import PCA
         print("start applying PCA")
-        # count = 0
+        total_length = len(self.calculated_decsriptor_list)
 
         if separate_atomtypes:
             for element in self.element_list:
                 model = pca_model[element]
+                count = 0
                 for calculated_decsriptor in self.calculated_decsriptor_list:
-                    print("start image")
+                    count += 1
+                    print("start image: {} / {}".format(count, total_length))
                     size_info = calculated_decsriptor[element]["size_info"]
                     calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
                     if self.calculate_descriptor_primes:
@@ -197,6 +199,8 @@ class DescriptorCalculator:
         transformed_result["row"]   = scipy_sparse_transformed.row
         transformed_result["col"]   = scipy_sparse_transformed.col
         transformed_result["size"]  = np.array(transformed_array.shape)
+
+        print("new_size: {}".format(transformed_array.shape))
 
         return transformed_result
 
