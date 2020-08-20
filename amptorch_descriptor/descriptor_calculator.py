@@ -87,9 +87,10 @@ class DescriptorCalculator:
                 pca_model = PCA(n_components=n_components)
                 pca_model.fit(data)
                 print(pca_model.explained_variance_ratio_)
+                print(np.sum(pca_model.explained_variance_ratio_))
 
                 models[element] = pca_model
-            if save:
+            if save_models:
                 if not os.path.exists(self.desc_fp_database_dir):
                     os.makedirs(self.desc_fp_database_dir)
                 pickle.dump( models, open( self.result_dir + "pca_models.p", "wb" ) )
