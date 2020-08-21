@@ -334,7 +334,7 @@ class DescriptorCalculator:
 
         # print("new_size: {}".format(transformed_array.shape))
 
-        return transformed_result
+        return 
     # def get_descriptors(self):
 
     # def get_descriptor_primes(self):
