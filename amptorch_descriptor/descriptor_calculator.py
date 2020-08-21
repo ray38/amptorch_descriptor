@@ -202,6 +202,54 @@ class DescriptorCalculator:
 
         return transformed_result
 
+
+    def _apply_pca_model_to_descriptor_primes2(self, data, num_total_atoms, num_selected_atoms, num_original_descriptors, model):
+        n_components = model.n_components_
+        components = model.components_ #  shape (n_components, n_features)
+
+        original_value = data["value"]
+        original_row   = data["row"]
+        original_col   = data["col"]
+        original_size  = data["size"]
+
+        # original_matrix = coo_matrix((data, (row, col)), shape=(4, 4)).toarray()
+        # original_array = coo_matrix((original_value, (original_row, original_col)), shape=original_size).toarray()
+        print("original_size: {}".format(original_array.shape))
+
+        new_value_list = []
+        new_row_list = []
+        new_col_list = []
+        new_size = [num_selected_atoms * n_components, 3 * num_total_atoms]
+
+        for i, row_num in enumerate(original_row):
+            corresponding_feature_num = row_num % num_original_descriptors
+            corresponding_atom_idx = row_num // num_original_descriptors
+
+
+
+            original_value[i]  = original_value[i] * scale[corresponding_feature_num]
+
+        # transformed_array = np.zeros((num_selected_atoms * n_components, 3 * num_total_atoms))
+
+        # for i in range(num_selected_atoms):
+        #     for j in range(n_components):
+        #         index_new = i * n_components + j
+        #         for k in range(num_original_descriptors):
+        #             index_old = i * num_original_descriptors + k
+        #             transformed_array[index_new] += components[j, k] * original_array[index_old]
+
+        # scipy_sparse_transformed = coo_matrix(transformed_array)
+        # # print("density: {}%".format(100*len(scipy_sparse_fp_prime.data) / (fp_prime.shape[0] * fp_prime.shape[1])))
+        # transformed_result = {}
+        # transformed_result["value"] = scipy_sparse_transformed.data
+        # transformed_result["row"]   = scipy_sparse_transformed.row
+        # transformed_result["col"]   = scipy_sparse_transformed.col
+        # transformed_result["size"]  = np.array(transformed_array.shape)
+
+        print("new_size: {}".format(transformed_array.shape))
+
+        return transformed_result
+
     def calculate_scaling(self, separate_atomtypes = True, save_models = True, scaler_min = -1, scaler_max = 1, apply_scaling = True):
         from sklearn.preprocessing import MinMaxScaler
 
@@ -213,7 +261,7 @@ class DescriptorCalculator:
                 scaler_model = MinMaxScaler(feature_range=(scaler_min, scaler_max))
                 scaler_model.fit(data)
                 print("scale result")
-                print(data_range_)
+                print(scaler_model.data_range_)
 
                 models[element] = scaler_model
             if save_models:

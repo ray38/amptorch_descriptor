@@ -59,4 +59,4 @@ temp_desc = descriptor_calculator.get_descriptors()
 print(temp_desc["H"][0].shape)
 # print(temp_desc_prime["H"][0].shape)
 
-self.calculate_scaling()
+descriptor_calculator.calculate_scaling()
