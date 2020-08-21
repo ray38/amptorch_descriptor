@@ -102,6 +102,11 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         if "prime_threshold" in self.MCSHs:
             self.params_set["prime_threshold"] = float(self.MCSHs["prime_threshold"])
 
+        if "center_atom" in self.MCSHs and self.MCSHs["center_atom"] == False:
+            self.params_set["center_atom"] = 0
+        else:
+            self.params_set["center_atom"] = 1
+
         return
     
     
@@ -179,7 +184,7 @@ class AtomisticMCSH(AMPTorchDescriptorBase):
         x_p = _gen_2Darray_for_ffi(x, ffi)
         dx_p = _gen_2Darray_for_ffi(dx, ffi)
 
-        errno = lib.calculate_atomistic_mcsh(cell_p, cart_p, scale_p, pbc_p,\
+        errno = lib.calculate_atomistic_mcsh(cell_p, cart_p, scale_p, pbc_p, self.params_set['center_atom'],\
                     atom_indices_p, atom_num, cal_atoms_p, cal_num, \
                     self.params_set['ip'], self.params_set['dp'], self.params_set['num'], self.params_set['gaussian_params_p'], self.params_set['ngaussians_p'], self.params_set['element_index_to_order_p'],\
                     x_p, dx_p)

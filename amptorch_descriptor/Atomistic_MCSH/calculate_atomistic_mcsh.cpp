@@ -28,7 +28,7 @@
     // atom_gaussian: 2D array (dimension: [# atom types, # gaussian * 2]), i*2: B, i*2+1: alpha
     // ngaussian: number of gaussian for each atom type [n gaussian for type 1, n gaussian for type 2 ...]
 
-extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** scale, int* pbc_bools,
+extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** scale, int* pbc_bools, int center_atom_bool,
                                         int* atom_i, int natoms, int* cal_atoms, int cal_num,
                                         int** params_i, double** params_d, int nmcsh, double** atom_gaussian, int* ngaussians, int* element_index_to_order,
                                         double** mcsh, double** dmcsh) {
@@ -162,8 +162,8 @@ extern "C" int calculate_atomistic_mcsh(double** cell, double** cart, double** s
                             continue;
 
                         // same atom
-                        // if (!(cell_shift[0] || cell_shift[1] || cell_shift[2]) && (i == j))
-                        //     continue;
+                        if (!center_atom_bool && (!(cell_shift[0] || cell_shift[1] || cell_shift[2]) && (i == j)))
+                            continue;
 
                         // take care of pbc
                         if (!pbc_bools[0] && cell_shift[0] != 0)

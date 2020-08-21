@@ -2,7 +2,7 @@ import cffi
 
 ffibuilder = cffi.FFI()
 ffibuilder.cdef(
-    """int calculate_atomistic_mcsh(double **, double **, double **, int*,
+    """int calculate_atomistic_mcsh(double **, double **, double **, int*, int,
                                     int *, int, int*, int,
                                     int**, double **, int, double **, int*, int*, 
                                     double**, double**);

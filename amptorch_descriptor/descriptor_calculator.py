@@ -156,7 +156,7 @@ class DescriptorCalculator:
                 count = 0
                 for calculated_decsriptor in self.calculated_decsriptor_list:
                     count += 1
-                    print("start image: {} / {}".format(count, total_length))
+                    print("start applying PCA image: {} / {}".format(count, total_length))
                     size_info = calculated_decsriptor[element]["size_info"]
                     calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
                     if self.calculate_descriptor_primes:
@@ -202,10 +202,91 @@ class DescriptorCalculator:
 
         return transformed_result
 
-    # def calculate_scale(self):
+    def calculate_scaling(self, separate_atomtypes = True, save_models = True, scaler_min = -1, scaler_max = 1, apply_scaling = True):
+        from sklearn.preprocessing import MinMaxScaler
 
-    # def apply_scale(self):
+        if separate_atomtypes:
+            models = {}
+            raw_data = self.get_descriptors(separate_atomtypes=separate_atomtypes)
+            for element in self.element_list:
+                data = np.vstack(raw_data[element])
+                scaler_model = MinMaxScaler(feature_range=(scaler_min, scaler_max))
+                scaler_model.fit(data)
+                print("scale result")
+                print(data_range_)
 
+                models[element] = scaler_model
+            if save_models:
+                if not os.path.exists(self.result_dir):
+                    os.makedirs(self.result_dir)
+                pickle.dump( models, open( self.result_dir + "scaling_models.p", "wb" ) )
+
+            if apply_scaling:
+                self.apply_scaling(models, separate_atomtypes=True)
+
+        else:
+            print("WARNING: NOT implemented")
+
+    def apply_scaling(self, scaling_model, separate_atomtypes = True):
+        if self.descriptors_ready == False:
+            print("ERROR, descriptors not calculated yet, please call prepare_descriptors() function first")
+            return 
+
+        from sklearn.preprocessing import MinMaxScaler
+        print("start applying PCA")
+        total_length = len(self.calculated_decsriptor_list)
+
+        if separate_atomtypes:
+            for element in self.element_list:
+                model = scaling_model[element]
+                count = 0
+                for calculated_decsriptor in self.calculated_decsriptor_list:
+                    count += 1
+                    print("start scaling image: {} / {}".format(count, total_length))
+                    size_info = calculated_decsriptor[element]["size_info"]
+                    calculated_decsriptor[element]["descriptors"] = model.transform(calculated_decsriptor[element]["descriptors"])
+                    if self.calculate_descriptor_primes:
+                        calculated_decsriptor[element]["descriptor_primes"] = \
+                            self._apply_scaling_model_to_descriptor_primes(calculated_decsriptor[element]["descriptor_primes"], size_info[0], size_info[1], size_info[2], model)
+                    # new_size_info = np.array([size_info[0], size_info[1], model.n_components_])
+                    # calculated_decsriptor[element]["size_info"] = new_size_info
+
+        else:
+            print("WARNING: NOT implemented")
+
+    def _apply_scaling_model_to_descriptor_primes(self, data, num_total_atoms, num_selected_atoms, num_original_descriptors, model):
+        scale = model.scale_ #  shape ( n_features)
+
+        original_value = data["value"]
+        original_row   = data["row"]
+        original_col   = data["col"]
+        original_size  = data["size"]
+
+        for i, row_num in enumerate(original_row):
+            corresponding_feature_num = row_num % num_original_descriptors
+            original_value[i]  = original_value[i] * scale[corresponding_feature_num]
+
+
+        # original_array = coo_matrix((original_value, (original_row, original_col)), shape=original_size).toarray()
+        # print("original_size: {}".format(original_array.shape))
+
+        # transformed_array = np.zeros((num_selected_atoms * num_original_descriptors, 3 * num_total_atoms))
+
+        # for i in range(num_selected_atoms):
+        #     for j in range(num_original_descriptors):
+        #         index = i * num_original_descriptors + j
+        #         transformed_array[index] += original_array[index] * scale[j]
+
+        # scipy_sparse_transformed = coo_matrix(transformed_array)
+        # transformed_result = {}
+        # transformed_result["value"] = scipy_sparse_transformed.data
+        # transformed_result["row"]   = scipy_sparse_transformed.row
+        # transformed_result["col"]   = scipy_sparse_transformed.col
+        # transformed_result["size"]  = np.array(transformed_array.shape)
+
+        # print("new_size: {}".format(transformed_array.shape))
+
+        return transformed_result
     # def get_descriptors(self):
 
     # def get_descriptor_primes(self):

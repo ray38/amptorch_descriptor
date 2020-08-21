@@ -58,3 +58,5 @@ temp_desc = descriptor_calculator.get_descriptors()
 # temp_desc_prime = descriptor_calculator.get_descriptor_primes()
 print(temp_desc["H"][0].shape)
 # print(temp_desc_prime["H"][0].shape)
+
+self.calculate_scaling()
