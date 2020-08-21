@@ -314,6 +314,8 @@ class DescriptorCalculator:
             corresponding_feature_num = row_num % num_original_descriptors
             original_value[i]  = original_value[i] * scale[corresponding_feature_num]
 
+        data["value"] = original_value
+
 
         # original_array = coo_matrix((original_value, (original_row, original_col)), shape=original_size).toarray()
         # print("original_size: {}".format(original_array.shape))
