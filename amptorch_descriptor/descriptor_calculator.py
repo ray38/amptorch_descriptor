@@ -314,7 +314,7 @@ class DescriptorCalculator:
             corresponding_feature_num = row_num % num_original_descriptors
             original_value[i]  = original_value[i] * scale[corresponding_feature_num]
 
-        data["value"] = original_value
+        # data["value"] = original_value
 
 
         # original_array = coo_matrix((original_value, (original_row, original_col)), shape=original_size).toarray()
@@ -328,15 +328,15 @@ class DescriptorCalculator:
         #         transformed_array[index] += original_array[index] * scale[j]
 
         # scipy_sparse_transformed = coo_matrix(transformed_array)
-        # transformed_result = {}
-        # transformed_result["value"] = scipy_sparse_transformed.data
-        # transformed_result["row"]   = scipy_sparse_transformed.row
-        # transformed_result["col"]   = scipy_sparse_transformed.col
-        # transformed_result["size"]  = np.array(transformed_array.shape)
+        transformed_result = {}
+        transformed_result["value"] = original_value
+        transformed_result["row"]   = original_row
+        transformed_result["col"]   = original_col
+        transformed_result["size"]  = original_size
 
         # print("new_size: {}".format(transformed_array.shape))
 
-        return 
+        return transformed_result
     # def get_descriptors(self):
 
     # def get_descriptor_primes(self):
